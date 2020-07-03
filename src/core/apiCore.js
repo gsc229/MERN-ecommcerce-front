@@ -9,8 +9,7 @@ export const getProducts = (sortBy) => {
   .then(response => {
     console.log('apiCore getProducts response: ',response.data)
     console.log(response)
-    const products = response.data
-    
+    const products = response.data    
     return products
   })
   .catch(error =>{
@@ -75,9 +74,7 @@ export const list = (params) => {
 }
 
 export const read = (productId) => {
-
   console.log('apiCore read productId: ', productId)
-
   return axiosWIthAuth()
   .get(`/product/${productId}`)
   .then(response => {
