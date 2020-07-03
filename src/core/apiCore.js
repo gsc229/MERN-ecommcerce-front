@@ -18,7 +18,6 @@ export const getProducts = (sortBy) => {
     return error.response.data
   })
 }
-
 export const getCategories = () => {
   return axiosWIthAuth()
   .get(`/category`)

@@ -7,14 +7,14 @@ const RelatedProducts = ({props, productId}) => {
 
   useEffect(()=>{
     listRelated(productId)
-  .then(data=>{
-    if(data.error){
-      console.log('Product.js loadProduct, listRelated data.error: ', data.error)
-      
-    } else{
-      //console.log('Product.js loadProduct, listRelated data:', data)
-      setRelatedProducts(data)
-    }
+    .then(data=>{
+      if(data.error){
+        console.log('Product.js loadProduct, listRelated data.error: ', data.error)
+        
+      } else{
+        //console.log('Product.js loadProduct, listRelated data:', data)
+        setRelatedProducts(data)
+      }
   })
   }, [productId])
 
