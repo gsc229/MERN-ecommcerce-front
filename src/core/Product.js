@@ -42,7 +42,7 @@ const Product = (props) => {
         {product && product.description && 
         <Card 
         props={props}
-        isAdmin={isAuthenticated().user.role}
+        isAdmin={isAuthenticated().user.role === 1}
         itemInCart={checkForItemInCart(product._id)}
         product={product} 
         showViewProductButton={false}        

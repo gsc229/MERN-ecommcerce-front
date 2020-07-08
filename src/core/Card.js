@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {Link, Redirect} from 'react-router-dom'
-import {isAuthenticated} from '../auth/index'
+import AdminControls from '../admin/DeleteUpdateProduct'
 import Image from './ShowImage'
 import moment from 'moment'
 import {addItem, updateItem, removeItem, checkForItemInCart, itemTotal} from './cartHelpers'
@@ -17,7 +17,7 @@ const Card = ({
   setRefresh=function(z){ console.log(z)},
   refresh=false
 }) => {
-  
+  console.log("IS ADMIN: ", isAdmin)
   const [redirect, setRedirect] = useState(false)
   const [count, setCount] = useState(product.count)
   
@@ -93,16 +93,7 @@ const Card = ({
       <span className='badge badge-primary badge-pill' >Out of Stock</span>)
   }
 
-  /* 6. DELETE PRODUCT BUTTON */
-  const deleteProduct = (showButton) => {
-    return showButton && 
-    <button
-      className="btn btn-danger mt-2 mb-2"
-    >
-      DELETE THIS PRODUCT
-    </button>
-  }
-
+  
   /* BUTTON CONFIGURATION */
   const actionButtons = () => {
     if(itemInCart){
@@ -128,10 +119,9 @@ const Card = ({
         {showStockBadge(product.quantity)}
         <br/>
         {addToCartButton(showAddToCartButton)}
-        {viewProductButton(showViewProductButton)}
-        <div className="admin-controls">
-        {deleteProduct(isAdmin)}
-        </div>
+        {viewProductButton(showViewProductButton)}        
+        {isAdmin && <AdminControls />}
+        
         
       </div>
       )
