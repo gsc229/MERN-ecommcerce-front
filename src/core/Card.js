@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {Link, Redirect} from 'react-router-dom'
+import {isAuthenticated} from '../auth/index'
 import Image from './ShowImage'
 import moment from 'moment'
 import {addItem, updateItem, removeItem, checkForItemInCart, itemTotal} from './cartHelpers'
@@ -12,6 +13,7 @@ const Card = ({
   showAddToCartButton = true, 
   showChangeQuantityButtons=true, 
   showRemoveProductButton=true,
+  isAdmin=false,
   setRefresh=function(z){ console.log(z)},
   refresh=false
 }) => {
@@ -91,6 +93,16 @@ const Card = ({
       <span className='badge badge-primary badge-pill' >Out of Stock</span>)
   }
 
+  /* 6. DELETE PRODUCT BUTTON */
+  const deleteProduct = (showButton) => {
+    return showButton && 
+    <button
+      className="btn btn-danger mt-2 mb-2"
+    >
+      DELETE THIS PRODUCT
+    </button>
+  }
+
   /* BUTTON CONFIGURATION */
   const actionButtons = () => {
     if(itemInCart){
@@ -106,7 +118,8 @@ const Card = ({
           </h4>}
           {viewProductButton(showViewProductButton)}
           {removeProductButton(showRemoveProductButton)}
-          {changeQuantityButtons(showChangeQuantityButtons)} 
+          {changeQuantityButtons(showChangeQuantityButtons)}
+          
         </div>
       )
     } else{
@@ -116,6 +129,10 @@ const Card = ({
         <br/>
         {addToCartButton(showAddToCartButton)}
         {viewProductButton(showViewProductButton)}
+        <div className="admin-controls">
+        {deleteProduct(isAdmin)}
+        </div>
+        
       </div>
       )
     }

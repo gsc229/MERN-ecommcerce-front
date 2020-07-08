@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import {Route} from 'react-router-dom'
 import Layout from './Layout'
 import Card from './Card'
+import {isAuthenticated} from '../auth/index'
 import RelatedProducts from './RelatedProducts'
 import {read, listRelated} from '../core/apiCore.js'
 import {checkForItemInCart} from './cartHelpers'
@@ -42,6 +42,7 @@ const Product = (props) => {
         {product && product.description && 
         <Card 
         props={props}
+        isAdmin={isAuthenticated().user.role}
         itemInCart={checkForItemInCart(product._id)}
         product={product} 
         showViewProductButton={false}        
