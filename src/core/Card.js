@@ -13,11 +13,11 @@ const Card = ({
   showAddToCartButton = true, 
   showChangeQuantityButtons=true, 
   showRemoveProductButton=true,
-  isAdmin=false,
+  adminControls=false,
   setRefresh=function(z){ console.log(z)},
   refresh=false
 }) => {
-  console.log("IS ADMIN: ", isAdmin)
+  console.log("IS ADMIN: ", adminControls)
   const [redirect, setRedirect] = useState(false)
   const [count, setCount] = useState(product.count)
   
@@ -49,7 +49,7 @@ const Card = ({
     return(showButton &&
     <Link to={`/product/${product._id}`}>
       <button 
-      onClick={()=> setRefresh(!refresh)} 
+      
       className="btn btn-outline-primary mt-2 mb-2 ml-2 mr-2">
         View Product
       </button>
@@ -120,9 +120,7 @@ const Card = ({
         <br/>
         {addToCartButton(showAddToCartButton)}
         {viewProductButton(showViewProductButton)}        
-        {isAdmin && <AdminControls />}
-        
-        
+        {adminControls && <AdminControls product={product} />}
       </div>
       )
     }

@@ -127,3 +127,14 @@ export const processPayment = (userId, paymentData) => {
     return error
   })
 }
+
+export const deleteProduct = (productId, userId)=>{
+  return axiosWIthAuth()
+  .delete(`/product/${productId}/${userId}`)
+  .then(res=>{
+    console.log(res)
+  })
+  .catch(error=>{
+    console.log(error.response)
+  })
+}
