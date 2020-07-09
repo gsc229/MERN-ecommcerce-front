@@ -24,11 +24,9 @@ const DeleteUpdateProduct = ({product}) => {
   const executeDelete = () => {
     deleteProduct(productId, userId)
     .then((response) =>{
-
       console.log('REDIRECT RESPONSE: ', response)
       setDeleteSuccess(true)
-      setTimeout(function(){setSendHome(true)}, 3000)
-      
+      setTimeout(function(){setSendHome(true)}, 2000)
     })
   }
   

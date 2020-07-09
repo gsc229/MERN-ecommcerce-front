@@ -18,6 +18,7 @@ const Card = ({
   refresh=false
 }) => {
   
+  console.log(product)
   const [redirect, setRedirect] = useState(false)
   const [count, setCount] = useState(product.count)
   
