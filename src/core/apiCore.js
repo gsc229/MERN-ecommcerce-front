@@ -131,8 +131,9 @@ export const processPayment = (userId, paymentData) => {
 export const deleteProduct = (productId, userId)=>{
   return axiosWIthAuth()
   .delete(`/product/${productId}/${userId}`)
-  .then(res=>{
-    console.log(res)
+  .then(response=>{
+    console.log(response)
+    return response
   })
   .catch(error=>{
     console.log(error.response)

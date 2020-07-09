@@ -17,7 +17,7 @@ const Card = ({
   setRefresh=function(z){ console.log(z)},
   refresh=false
 }) => {
-  console.log("IS ADMIN: ", adminControls)
+  
   const [redirect, setRedirect] = useState(false)
   const [count, setCount] = useState(product.count)
   
