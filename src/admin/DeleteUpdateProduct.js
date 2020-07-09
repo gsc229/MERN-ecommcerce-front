@@ -18,13 +18,13 @@ const DeleteUpdateProduct = ({product}) => {
   }
 
   const deleteSuccessMessage = () => (
-    <div className='alert alert-success' style={{display: deleteSuccess ? '' : 'none', position: 'absolute',left: '5%', top: '35%', margin: '0 auto'}}><h2>{`${product.name} was sucessfully deleted!`}</h2></div>
+    <div className='alert alert-success' style={{display: deleteSuccess ? '' : 'none', margin: '0 auto'}}><h2>{`${product.name} was sucessfully deleted!`}</h2></div>
   )
-
 
   const executeDelete = () => {
     deleteProduct(productId, userId)
     .then((response) =>{
+
       console.log('REDIRECT RESPONSE: ', response)
       setDeleteSuccess(true)
       setTimeout(function(){setSendHome(true)}, 3000)
@@ -34,20 +34,20 @@ const DeleteUpdateProduct = ({product}) => {
   
   /* DELETE PRODUCT BUTTON */
   const deleteButton = () => {
-    return <button
+    return (!deleteSuccess && <button
             className="btn btn-danger mt-2 mb-2 mr-1 ml-1"
             onClick={executeDelete}
           >
           DELETE THIS PRODUCT
-          </button>
+          </button>)
   }
   
   const editButton = () => {
-    return <button
+    return (!deleteSuccess && <button
             className="btn btn-warning mt-2 mb-2 mr-1 ml-1"
           >
           EDIT
-          </button>
+          </button>)
   }
 
 
