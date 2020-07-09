@@ -8,7 +8,7 @@ const DeleteUpdateProduct = ({product}) => {
   const productId = product._id
   const userId = isAuthenticated().user._id
   const [sendHome, setSendHome] = useState(false)
-  const [deleteSuccess, setDeleteSuccess] = useState(true)
+  const [deleteSuccess, setDeleteSuccess] = useState(false)
 
   const redirectHome = () => {
     if(sendHome){
@@ -17,21 +17,19 @@ const DeleteUpdateProduct = ({product}) => {
     
   }
 
-  const deleteSuccessMessage = () => {
-    if(deleteSuccess){
-      return <h3 className="text-success">{product.name} succesfully deleted!</h3>
-    }
-    
-  }
+  const deleteSuccessMessage = () => (
+    <div className='alert alert-success' style={{display: deleteSuccess ? '' : 'none', position: 'absolute',left: '5%', top: '35%', margin: '0 auto'}}><h2>{`${product.name} was sucessfully deleted!`}</h2></div>
+  )
 
 
   const executeDelete = () => {
     deleteProduct(productId, userId)
-    .then((response) =>(
-      console.log('REDIRECT RESPONSE: ', response),
-      setTimeout(),
-      setSendHome(true)
-    ))
+    .then((response) =>{
+      console.log('REDIRECT RESPONSE: ', response)
+      setDeleteSuccess(true)
+      setTimeout(function(){setSendHome(true)}, 3000)
+      
+    })
   }
   
   /* DELETE PRODUCT BUTTON */
