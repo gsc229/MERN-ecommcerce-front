@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {Link, Redirect} from 'react-router-dom'
+import AdminControls from '../admin/DeleteUpdateProduct'
 import Image from './ShowImage'
 import moment from 'moment'
 import {addItem, updateItem, removeItem, checkForItemInCart, itemTotal} from './cartHelpers'
@@ -12,6 +13,7 @@ const Card = ({
   showAddToCartButton = true, 
   showChangeQuantityButtons=true, 
   showRemoveProductButton=true,
+  adminControls=false,
   setRefresh=function(z){ console.log(z)},
   refresh=false
 }) => {
@@ -47,7 +49,7 @@ const Card = ({
     return(showButton &&
     <Link to={`/product/${product._id}`}>
       <button 
-      onClick={()=> setRefresh(!refresh)} 
+      
       className="btn btn-outline-primary mt-2 mb-2 ml-2 mr-2">
         View Product
       </button>
@@ -91,6 +93,7 @@ const Card = ({
       <span className='badge badge-primary badge-pill' >Out of Stock</span>)
   }
 
+  
   /* BUTTON CONFIGURATION */
   const actionButtons = () => {
     if(itemInCart){
@@ -106,7 +109,8 @@ const Card = ({
           </h4>}
           {viewProductButton(showViewProductButton)}
           {removeProductButton(showRemoveProductButton)}
-          {changeQuantityButtons(showChangeQuantityButtons)} 
+          {changeQuantityButtons(showChangeQuantityButtons)}
+          
         </div>
       )
     } else{
@@ -115,7 +119,8 @@ const Card = ({
         {showStockBadge(product.quantity)}
         <br/>
         {addToCartButton(showAddToCartButton)}
-        {viewProductButton(showViewProductButton)}
+        {viewProductButton(showViewProductButton)}        
+        {adminControls && <AdminControls product={product} />}
       </div>
       )
     }

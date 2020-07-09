@@ -18,7 +18,6 @@ export const getProducts = (sortBy) => {
     return error.response.data
   })
 }
-
 export const getCategories = () => {
   return axiosWIthAuth()
   .get(`/category`)
@@ -126,5 +125,17 @@ export const processPayment = (userId, paymentData) => {
   .catch(error=>{
     console.log('ERROR, apiCore processPayment:', error.response)
     return error
+  })
+}
+
+export const deleteProduct = (productId, userId)=>{
+  return axiosWIthAuth()
+  .delete(`/product/${productId}/${userId}`)
+  .then(response=>{
+    console.log(response)
+    return response
+  })
+  .catch(error=>{
+    console.log(error.response)
   })
 }
