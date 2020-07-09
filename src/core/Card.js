@@ -95,7 +95,7 @@ const Card = ({
   }
 
   
-  /* BUTTON CONFIGURATION */
+  /* BUTTON CONFIGURATION FOR PRODUCTS */
   const actionButtons = () => {
     if(itemInCart){
       return (
