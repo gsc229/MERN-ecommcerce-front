@@ -77,12 +77,12 @@ const Search = ({props}) => {
         </h2>
         <div className='row'>
           {results.map((product, i)=>(
-            <div className='col-4 mb-3' key={i}>
+            <div className='col-xl-2 col-lg-4 col-md-6 col-sm-12 mb-3' key={i}>
               <Card 
               props={props} 
               product={product} 
               itemInCart={checkForItemInCart(product._id)} 
-              />
+            />
             </div>
           ))}
         </div>

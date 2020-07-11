@@ -131,7 +131,7 @@ const Card = ({
 
   return (
     
-      <div className="card">
+      <div className="card" style={{minHeight: '600px'}}>
         <div className={`card-header ${card_header_style}`}>
           {product.name} {itemInCart ? <i class="fas fa-check"></i> : ''}
         </div>
