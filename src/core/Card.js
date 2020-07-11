@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {Link, Redirect} from 'react-router-dom'
-import AdminControls from '../admin/DeleteUpdateProduct'
+import AdminControls from '../admin/DeleteUpdateBtns'
 import Image from './ShowImage'
 import moment from 'moment'
 import {addItem, updateItem, removeItem, checkForItemInCart, itemTotal} from './cartHelpers'
@@ -18,7 +18,7 @@ const Card = ({
   refresh=false
 }) => {
   
-  console.log(product)
+  //console.log(product)
   const [redirect, setRedirect] = useState(false)
   const [count, setCount] = useState(product.count)
   
@@ -95,7 +95,7 @@ const Card = ({
   }
 
   
-  /* BUTTON CONFIGURATION */
+  /* BUTTON CONFIGURATION FOR PRODUCTS */
   const actionButtons = () => {
     if(itemInCart){
       return (

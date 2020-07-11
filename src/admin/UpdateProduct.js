@@ -1,12 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import Layout from '../core/Layout'
 import {isAuthenticated} from '../auth'
-import {createProduct, getCategories} from './apiAdmin'
+import {getProduct, getCategories} from './apiAdmin'
 
 
 
-
-const AddProduct = () => {
+const UpdateProduct = (props) => {
 
   const [values, setValues] = useState({
     name: '',
@@ -36,15 +35,27 @@ const AddProduct = () => {
   formData
   } = values
 
+  const productId = props.match.params.productId
+
+
   const {user} = isAuthenticated()
   
   const init = () => { 
     getCategories().then(data => {
       if(data.error){
-        console.log('ERROR AddProduct.js init')
+        console.log('ERROR UpdateProduct.js init')
         setValues({...values, error: data.error})
       } else {
         setValues({...values, categories: data, formData: new FormData(), error: ''})
+      }
+    })
+    getProduct(productId)
+    .then(data=>{
+      if(data.error){
+        console.log('ERROR UpdateProduct.js init')
+        setValues({...values, error: data.error})
+      } else{
+        setValues({...values, ...data})
       }
     })
   }
@@ -54,29 +65,20 @@ const AddProduct = () => {
     init()
   },[])
 
+  
+
+
   const handleChange = name => event => {
     const value = name === 'photo' ? event.target.files[0] : event.target.value
-    formData.set(name, value)
+    //formData.set(name, value)
     setValues({...values, [name]: value})
   }
 
-
-  const clickSubmit = (e) => {
-    e.preventDefault()
-    setValues({...values, error: "", loading: true})
-    createProduct(user._id, formData)
-    .then(data=>{
-      if(data.error){
-        console.log('ERROR AddProduct.js clickSubmit')
-        setValues({...values, error: data.error})
-      } else{ 
-        console.log('DATA CLICK SUBMIT: ', data)
-        setValues({...values, name: '', description: '', photo: '', price: '', quantity: '', loading: false, createdProduct: data.product.name})
-      }
-    })
+  const clickSubmit = () => {
+    // some stuff
   }
 
-  const newPostForm = () => (
+  const updateProductForm = () => (
     <form onSubmit={clickSubmit} className="mb-3">
       <h4>Post Photo</h4>
       <div className="form-group">
@@ -150,34 +152,19 @@ const AddProduct = () => {
   )
 
 
-  const showError = () => (
-    <div className='alert alert-danger' style={{display: error ? '' : 'none'}} >{error}</div>
-  )
 
-  const showSuccess= () => (
-    <div className='alert alert-success' style={{display: createdProduct ? '' : 'none'}} ><h2>{`${createdProduct} is created!`}</h2></div>
-  )
-
-  const showLoading = () => (
-    loading && (<div className='alert alert-success'><h2>Loading...</h2></div>)
-  )
-
-  
   return (
     <Layout 
-    title="Add a new product" 
-    description={`G'day ${user.name}, ready to add a new product?`}
+    title="Editing product" 
+    description={`You are editing ${name}.`}
     >
       <div className='row'>
         <div className="col-md-8 offset-md-2">
-          {showError()}
-          {showLoading()}
-          {showSuccess()}
-          {newPostForm()} 
+          {updateProductForm()}
         </div>
       </div> 
-    </Layout>  
+    </Layout> 
   )
 }
 
-export default AddProduct
+export default UpdateProduct
