@@ -131,9 +131,8 @@ const Shop = (props) => {
         <div className="col-8">
           <h2 className='mb-4'>Search Results</h2>
           <div className='row'>
-            
             {filteredResults.map((product,i)=>(
-              <div className='col-4 mb-3' key={i}>
+              <div className='col-lg-6 col-sm-12 mb-3' key={i}>
                 <Card 
                 props={props} 
                 product={product}
