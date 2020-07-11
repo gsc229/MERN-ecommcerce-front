@@ -41,12 +41,45 @@ const Home = (props) => {
     loadProductsBySell()
   },[])
 
+  const loader = () => {
+    return(
+      <div className='col-12'>
+        <div className='d-flex justify-content-center'>
+          <div class="spinner-grow mr-2 mb-4 text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div class="spinner-grow mr-2 mb-4 text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div class="spinner-grow mr-2 mb-4 text-success" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div class="spinner-grow mr-2 mb-4 text-danger" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div class="spinner-grow mr-2 mb-4 text-warning" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div class="spinner-grow mr-2 mb-4 text-info" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>        
+        <div className='d-flex justify-content-center mt-4'>
+          <h4>Wait for it...</h4>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <Layout className='container-fluid' title="Home Page" description="Node React E-commerce App">
       <Search props={props} />
       <h2 className='mb-4'>New Arrivals</h2>
+      
       <div className="row">
-      {productsByArrival.map((product, i)=>{
+      {productsByArrival.length ? 
+      
+      productsByArrival.map((product, i)=>{
 
         return(
         <div className='col-2 mb-3' key={i}>
@@ -56,13 +89,16 @@ const Home = (props) => {
           itemInCart={checkForItemInCart(product._id)} 
           />
         </div>)
-      })}
-
+      })
+      
+      : loader()}
+      
       </div>
       
       <h2 className='mb-4'>Best Sellers</h2>
       <div className="row">
-      {productsBySell.map((product, i)=>(
+      {productsBySell.length ? 
+      productsBySell.map((product, i)=>(
         <div className='col-2 mb-3' key={i}>
           <Card 
           props={props} 
@@ -70,7 +106,10 @@ const Home = (props) => {
           itemInCart={checkForItemInCart(product._id)} 
           />
         </div>
-      ))}
+      ))
+      : loader()
+      }
+  
       </div>
     </Layout>
      

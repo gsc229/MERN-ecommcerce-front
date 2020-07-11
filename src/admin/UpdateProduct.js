@@ -1,17 +1,16 @@
 import React, {useState, useEffect} from 'react'
 import Layout from '../core/Layout'
 import {isAuthenticated} from '../auth'
-import {getProduct, getCategories} from './apiAdmin'
+import {updateProduct,getProduct, getCategories} from './apiAdmin'
 
 
 
 const UpdateProduct = (props) => {
-
+  const [categories, setCategories] = useState([])
   const [values, setValues] = useState({
     name: '',
     description: '',
-    price: '',
-    categories: [],
+    price: '',  
     category: '',
     shipping: '',
     quantity: '',
@@ -26,8 +25,7 @@ const UpdateProduct = (props) => {
   const {
   name,
   description,
-  price,
-  categories, 
+  price, 
   quantity,  
   loading,
   error,
@@ -37,45 +35,60 @@ const UpdateProduct = (props) => {
 
   const productId = props.match.params.productId
 
+  console.log('VALUES: ',values)
 
   const {user} = isAuthenticated()
-  
+  console.log('USER: ', user)
   const init = () => { 
-    getCategories().then(data => {
-      if(data.error){
-        console.log('ERROR UpdateProduct.js init')
-        setValues({...values, error: data.error})
-      } else {
-        setValues({...values, categories: data, formData: new FormData(), error: ''})
-      }
-    })
+
+    getCategories()
+        .then(data => {
+          if(data.error){
+            console.log('ERROR UpdateProduct.js init', data.error)
+            setValues({...values, error: data.error})
+          } else {
+            
+            setCategories(data)
+          }
+        })
+
+
     getProduct(productId)
     .then(data=>{
       if(data.error){
-        console.log('ERROR UpdateProduct.js init')
+        console.log('ERROR UpdateProduct.js init', data.error)
         setValues({...values, error: data.error})
+        
       } else{
-        setValues({...values, ...data})
+        setValues({...values, ...data, formData: new FormData(), error: ''})
+        
       }
     })
+    
+    
   }
-
 
   useEffect(()=>{
     init()
   },[])
 
-  
-
 
   const handleChange = name => event => {
     const value = name === 'photo' ? event.target.files[0] : event.target.value
-    //formData.set(name, value)
+    formData.set(name, value)
     setValues({...values, [name]: value})
   }
 
-  const clickSubmit = () => {
+  const clickSubmit = (e) => {
+    e.preventDefault()
     // some stuff
+    updateProduct(productId, user._id, formData)
+    .then(responese=>{
+      console.log('updateProduct response: ', responese)
+    })
+    .catch(error=>{
+      console.log(error.responese)
+    })
   }
 
   const updateProductForm = () => (
