@@ -37,9 +37,7 @@ const UpdateProduct = (props) => {
   } = values
 
   const productId = props.match.params.productId
-
   console.log('VALUES: ',values)
-
   const {user} = isAuthenticated()
   console.log('USER: ', user)
   const init = () => { 
@@ -60,7 +58,6 @@ const UpdateProduct = (props) => {
       if(data.error){
         console.log('ERROR UpdateProduct.js init', data.error)
         setValues({...values, error: data.error})
-        
       } else{
         setValues({...values, ...data, formData: new FormData(), error: ''})
       }
@@ -69,13 +66,17 @@ const UpdateProduct = (props) => {
 
   useEffect(()=>{
     init()
-    
-    for(const [key, value] of Object.entries(values)){
-      if(key !== 'loading' && key !== 'error' && key !== 'createdProduct' && key !== 'redirectToProfile' && key !== 'formData'){
-        console.log('key: ', key, 'typeof: ', typeof key, 'value: ', value, 'typeof: ', typeof value)
-      }
-    }
   },[])
+
+  /* After setting the current product info, put current info into the formData object */
+  if(name){for(const [key, value] of Object.entries(values)){
+    if(key !== 'loading' && key !== 'error' && key !== 'createdProduct' && key !== 'redirectToProfile' && key !== 'formData'){
+      console.log('key: ', key, 'typeof: ', typeof key, 'value: ', value, 'typeof: ', typeof value)
+      formData.set(key, value)
+    }
+  }}
+
+  console.log(formData)
 
 
   const handleChange = name => event => {
@@ -168,7 +169,7 @@ const UpdateProduct = (props) => {
         className="form-control"
         />
       </div>
-      <button className="btn btn-outline-primary"> Product</button>
+      <button className="btn btn-outline-primary">Edit Product</button>
     </form>
   )
 
