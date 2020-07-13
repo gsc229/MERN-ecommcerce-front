@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import {Redirect} from 'react-router-dom'
 import Layout from '../core/Layout'
 import Image from '../core/ShowImage'
 import {isAuthenticated} from '../auth'
@@ -8,6 +9,7 @@ import {updateProduct,getProduct, getCategories} from './apiAdmin'
 
 const UpdateProduct = (props) => {
   const [categories, setCategories] = useState([])
+  const [sendToProductPage, setSendToProductPage] = useState(false)
   const [values, setValues] = useState({
     name: '',
     description: '',
@@ -18,7 +20,7 @@ const UpdateProduct = (props) => {
     photo: '',
     loading: false,
     error: '',
-    createdProduct: '',
+    updatedProduct: '',
     redirectToProfile: false,
     formData: ''
   })
@@ -32,14 +34,14 @@ const UpdateProduct = (props) => {
   photo,
   loading,
   error,
-  createdProduct,
+  updatedProduct,
   formData
   } = values
 
   const productId = props.match.params.productId
-  console.log('VALUES: ',values)
+  //console.log('VALUES: ',values)
   const {user} = isAuthenticated()
-  console.log('USER: ', user)
+  //console.log('USER: ', user)
   const init = () => { 
     getCategories()
         .then(data => {
@@ -47,7 +49,6 @@ const UpdateProduct = (props) => {
             console.log('ERROR UpdateProduct.js init', data.error)
             setValues({...values, error: data.error})
           } else {
-            
             setCategories(data)
           }
         })
@@ -70,13 +71,13 @@ const UpdateProduct = (props) => {
 
   /* After setting the current product info, put current info into the formData object */
   if(name){for(const [key, value] of Object.entries(values)){
-    if(key !== 'loading' && key !== 'error' && key !== 'createdProduct' && key !== 'redirectToProfile' && key !== 'formData'){
-      console.log('key: ', key, 'typeof: ', typeof key, 'value: ', value, 'typeof: ', typeof value)
+    if(key !== 'loading' && key !== 'error' && key !== 'updatedProduct' && key !== 'redirectToProfile' && key !== 'formData'){
+      //console.log('key: ', key, 'typeof: ', typeof key, 'value: ', value, 'typeof: ', typeof value)
       formData.set(key, value)
     }
   }}
 
-  console.log(formData)
+  
 
 
   const handleChange = name => event => {
@@ -85,16 +86,28 @@ const UpdateProduct = (props) => {
     setValues({...values, [name]: value})
   }
 
+  const redirectToProductPage = () => {
+    /* if(sendToProductPage){
+      return <Redirect to={`/product/${productId}`} /> 
+    } */
+    props.history.push(`/product/${productId}`)
+  }
+
   const clickSubmit = (e) => {
     e.preventDefault()
-    // some stuff
+    
+    setValues({...values, error: ''})
     updateProduct(productId, user._id, formData)
-    .then(responese=>{
-      console.log('updateProduct response: ', responese)
-    })
-    .catch(error=>{
-      console.log(error.responese)
-    })
+    .then(data=>{
+      if(data.error){
+        console.log('ERROR AddProduct.js clickSubmit')
+        setValues({...values, error: data.error})
+      } else{ 
+        console.log('DATA CLICK SUBMIT: ', data)
+        //setSendToProductPage(true)
+        redirectToProductPage()
+      }
+    }) 
   }
 
   const updateProductForm = () => (
@@ -104,7 +117,7 @@ const UpdateProduct = (props) => {
       <h4>Change Photo: </h4>
       <div className="form-group">
         <label className="btn btn-secondary" htmlFor="">
-          <input onChange={handleChange('photo')}  type="file" name="photo" accept="image/*"/>
+          <input onChange={handleChange('photo')}  type="file" name="photo" accept="image/*" />
         </label>        
       </div>
       <div className="form-group">
@@ -173,6 +186,18 @@ const UpdateProduct = (props) => {
     </form>
   )
 
+  const showError = () => (
+    <div className='alert alert-danger' style={{display: error ? '' : 'none'}} >{error}</div>
+  )
+
+  const showSuccess= () => (
+    <div className='alert alert-success' style={{display: updatedProduct ? '' : 'none'}} ><h2>{`${updatedProduct.name} has been updated!`}</h2></div>
+  )
+
+  const showLoading = () => (
+    loading && (<div className='alert alert-success'><h2>Loading...</h2></div>)
+  )
+
   return (
     <Layout 
     title="Editing product" 
@@ -180,6 +205,10 @@ const UpdateProduct = (props) => {
     >
     <div className='row'>
       <div className="col-md-8 offset-md-2">
+        {showError()}
+        {showSuccess()}
+        {showLoading()}
+        
         {updateProductForm()}
       </div>
     </div> 

@@ -19,8 +19,6 @@ const Product = (props) => {
             setError(data.error);
         } else {            
           setProduct(data);        
-          
-          
         }
     });
 };

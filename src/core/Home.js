@@ -45,23 +45,23 @@ const Home = (props) => {
     return(
       <div className='col-12'>
         <div className='d-flex justify-content-center'>
-          <div class="spinner-grow mr-2 mb-4 text-primary" role="status">
-            <span class="sr-only">Loading...</span>
+          <div className="spinner-grow mr-2 mb-4 text-primary" role="status">
+            <span className="sr-only">Loading...</span>
           </div>
-          <div class="spinner-grow mr-2 mb-4 text-secondary" role="status">
-            <span class="sr-only">Loading...</span>
+          <div className="spinner-grow mr-2 mb-4 text-secondary" role="status">
+            <span className="sr-only">Loading...</span>
           </div>
-          <div class="spinner-grow mr-2 mb-4 text-success" role="status">
-            <span class="sr-only">Loading...</span>
+          <div className="spinner-grow mr-2 mb-4 text-success" role="status">
+            <span className="sr-only">Loading...</span>
           </div>
-          <div class="spinner-grow mr-2 mb-4 text-danger" role="status">
-            <span class="sr-only">Loading...</span>
+          <div className="spinner-grow mr-2 mb-4 text-danger" role="status">
+            <span className="sr-only">Loading...</span>
           </div>
-          <div class="spinner-grow mr-2 mb-4 text-warning" role="status">
-            <span class="sr-only">Loading...</span>
+          <div className="spinner-grow mr-2 mb-4 text-warning" role="status">
+            <span className="sr-only">Loading...</span>
           </div>
-          <div class="spinner-grow mr-2 mb-4 text-info" role="status">
-            <span class="sr-only">Loading...</span>
+          <div className="spinner-grow mr-2 mb-4 text-info" role="status">
+            <span className="sr-only">Loading...</span>
           </div>
         </div>        
         <div className='d-flex justify-content-center mt-4'>
