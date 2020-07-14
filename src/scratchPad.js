@@ -1,43 +1,5 @@
-import React, {Fragment, useEffect, useState} from 'react'
-import {Link, withRouter} from 'react-router-dom'
-import {signout, isAuthenticated} from '../auth'
-import {itemTotal} from './cartHelpers'
-import '../styles/css/Layout.css'
-
-
-const isActive = (history, path)=>{
-  if(history.location.pathname === path){
-    return {color: '#ff9900'}
-  } else{
-    return {color: "#ffffff"}
-  }
-}
-
-const Menu = ({history}) => {
-  
-  const [refresh, setRefresh] = useState(false)
-
-
-  useEffect(()=>{
-    setRefresh(!refresh)
-  },[itemTotal()])
-  
-  
-  
-  return (
-  <nav class="navbar navbar-expand-lg navbar-light bg-primary menu-bar">
-      <button 
-      class="navbar-toggler" 
-      type="button" 
-      data-toggle="collapse" 
-      data-target="#navbarNavDropdown" 
-      aria-controls="navbarNavDropdown" 
-      aria-expanded="false" 
-      aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul className="navbar-nav nav-tabs bg-primary">
+<div className='container'>      
+      <ul className="nav nav-tabs bg-primary">
 
         <li className="nav-item">
           <Link 
@@ -74,6 +36,7 @@ const Menu = ({history}) => {
         </Fragment>
         )}
 
+        
         {isAuthenticated() && (        
             <li className="nav-item">
             <span 
@@ -106,8 +69,3 @@ const Menu = ({history}) => {
 
       </ul>
     </div>
-  </nav>
-  )
-}
-
-export default withRouter(Menu)

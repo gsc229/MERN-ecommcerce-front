@@ -11,7 +11,7 @@ const Layout = ({
 }) => {
  
   return (
-    <div>
+    <div className='layout-wrapper'>
       <Menu />
       <div className='layout-container'>
         <div className="jumbotron">

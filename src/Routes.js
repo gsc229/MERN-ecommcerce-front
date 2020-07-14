@@ -13,10 +13,10 @@ import UpdateProduct from './admin/UpdateProduct'
 import Shop from './core/Shop'
 import Product from './core/Product'
 import Cart from './core/Cart'
-
+import './styles/css/Layout.css'
 const Routes = () => {
   return (
-    <div>
+    <div className='main-container'>
       <BrowserRouter>        
         <Switch>
           <Route path='/' exact component={Home} />        
