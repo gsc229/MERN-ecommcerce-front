@@ -115,20 +115,28 @@ const Shop = (props) => {
   },[])
 
   return (
-    <Layout className='container-fluid' title="Home Page" description="Node React E-commerce App">
+    <Layout className='container-fluid' title="Shop" description="Node React E-commerce App">
       <div className="row">
-        <div className="col-4">
-          <h4>Filter by Categeory</h4>
-          <ul>
-            <Checkbox categories={categories} handleFilters={handleFilters} />
-          </ul>
-          <h4>Filter by Price</h4>
-          <div>
-            <RadioBox prices={prices} handleFilters={handleFilters}  />
-          </div>  
+        <div className="col-xl-4"> 
+
+          <div className="row">
+            <div className="col-xl-12 col-sm-6">
+            <h4>Filter by Categeory</h4>
+              <ul>
+              <Checkbox categories={categories} handleFilters={handleFilters} />
+              </ul>
+            </div>
+            <div className="col-xl-12 col-sm-6">
+            <h4>Filter by Price</h4>
+            <div>
+              <RadioBox prices={prices} handleFilters={handleFilters}  />
+            </div>
+            </div>
+          </div>
+
         </div>
         
-        <div className="col-8">
+        <div className="col-xl-8">
           <h2 className='mb-4'>Search Results</h2>
           <div className='row'>
             {filteredResults.map((product,i)=>(

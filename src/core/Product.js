@@ -36,7 +36,7 @@ const Product = (props) => {
       className='container-fluid'
     >
       <div className="row">
-        <div className="col-8">
+        <div className="col-xl-8">
         {product && product.description && 
         <Card 
         props={props}
@@ -48,7 +48,7 @@ const Product = (props) => {
         setRefresh={setRefresh}
         />}
         </div>
-        <div className="col-4">        
+        <div className="col-xl-4">        
         <RelatedProducts props={props} productId={product._id} />        
         </div> 
       </div>
