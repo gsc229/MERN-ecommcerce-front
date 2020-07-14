@@ -4,7 +4,7 @@ import AdminControls from '../admin/DeleteUpdateBtns'
 import Image from './ShowImage'
 import moment from 'moment'
 import {addItem, updateItem, removeItem, checkForItemInCart, itemTotal} from './cartHelpers'
-
+import {isAuthenticated} from '../auth'
 const Card = ({
   props,
   product,
@@ -47,10 +47,12 @@ const Card = ({
   /* ========== BUTTONS & BUTTON CONFIGURATION =================== */
   /* 1. BUTTON - VIEW PRODUCT */
   const viewProductButton = (showButton) => {
+
+    const path = isAuthenticated() ? `/product/${product._id}` : '/signin'
+
     return(showButton &&
-    <Link to={`/product/${product._id}`}>
-      <button 
-      
+    <Link to={path}>
+      <button      
       className="btn btn-outline-primary mt-2 mb-2 ml-2 mr-2">
         View Product
       </button>
