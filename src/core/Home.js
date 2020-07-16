@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import Layout from './Layout'
 import {getProducts} from './apiCore'
 import {checkForItemInCart} from './cartHelpers'
+
 import Card from './Card'
 import Search from './Search'
 
@@ -10,7 +11,7 @@ const Home = (props) => {
   const [productsBySell, setProductsBySell] = useState([])
   const [productsByArrival, setProductsByArrival] = useState([])
   const [error, setError] = useState([])
-  
+
 
   const loadProductsBySell = ()=>{
     getProducts('sold')

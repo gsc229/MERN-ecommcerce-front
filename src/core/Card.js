@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {Link, Redirect} from 'react-router-dom'
+import {gsap} from 'gsap'
 import AdminControls from '../admin/DeleteUpdateBtns'
 import Image from './ShowImage'
 import moment from 'moment'
@@ -21,9 +22,13 @@ const Card = ({
   //console.log(product)
   const [redirect, setRedirect] = useState(false)
   const [count, setCount] = useState(product.count)
+  const card = React.useRef()
+  useEffect(()=>{
+    gsap.fromTo(card.current, {x: 150} ,{duration: 1, ease: "power4.out", x: 0})
+  },[card])
   
   // redirects to same page to refresh state
-  const refreshRedirect = () => (props.history.push(props.match.url))   
+  const refreshRedirect = () => (props.history.push(props.match.url)) 
 
   const addToCart = () => {
     addItem(product, ()=>{      
@@ -133,7 +138,7 @@ const Card = ({
 
   return (
     
-      <div className="card" style={{minHeight: '600px'}}>
+      <div ref={card} className="card" style={{minHeight: '600px'}}>
         <div className={`card-header ${card_header_style}`}>
           {product.name} {itemInCart ? <i class="fas fa-check"></i> : ''}
         </div>
