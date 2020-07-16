@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import Layout from './Layout'
-import {getProducts} from './apiCore'
 import {getCart} from './cartHelpers'
 import Card from './Card'
 import { Link } from 'react-router-dom'

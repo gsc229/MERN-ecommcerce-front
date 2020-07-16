@@ -1,7 +1,8 @@
 import React from 'react'
-import {BrowserRouter, Switch, Route}  from 'react-router-dom'
+import {Switch, Route, useLocation}  from 'react-router-dom'
+import {animated, useTransition, config} from 'react-spring'
 import SignUp from './user/SignUp'
-import SignIn from './user/SingIn'
+import SignIn from './user/SignIn'
 import Home from './core/Home'
 import PrivateRoute from './auth/PrivateRoute'
 import Dashboard from './user/UserDashboard'
@@ -14,11 +15,24 @@ import Shop from './core/Shop'
 import Product from './core/Product'
 import Cart from './core/Cart'
 import './styles/css/Layout.css'
+
+
 const Routes = () => {
-  return (
-    <div className='main-container'>
-      <BrowserRouter>        
-        <Switch>
+
+  const location = useLocation()
+  /* console.log('LOCATION: ')
+  console.log(location) */
+  const transistions = useTransition(location, location => location.pathname, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 1 },
+    config: {duration: 700, friction: 100}
+  })
+
+
+  return transistions.map(({item: location, props, key})=>(
+    <animated.div key={key} style={props} className='main-container'>
+        <Switch location={location}>
           <Route path='/' exact component={Home} />        
           <Route path='/signin' exact component={SignIn} />
           <Route path='/signup' exact component={SignUp} />
@@ -31,9 +45,9 @@ const Routes = () => {
           <AdminRoute path='/editing/:productId' exact compenent={UpdateProduct} />
           <Route path='/product/:productId' exact component={Product} />  
         </Switch>
-      </BrowserRouter>
-    </div>
-  )
+    </animated.div>
+    ))
 }
 
 export default Routes
+

@@ -5,27 +5,28 @@ import {getCategories, getFilteredProducts} from './apiCore'
 import {checkForItemInCart} from './cartHelpers'
 import Checkbox from './Checkbox'
 import RadioBox from './RadioBox'
+import LoaderOne from './LoaderOne'
 import {prices} from './fixedPrices'
 
 const Shop = (props) => {
-
+  // set by user input
   const [myFilters, setMyfilters] = useState({
     filters: {category: [], price: []}
   })
+  // set by backend code
   const [categories, setCategories] = useState([])
   const [error, setError] = useState([])
   const [limit, setLimit] = useState(6)
   const [skip, setSkip] = useState(0)
   const [size, setSize] = useState(0)
   const [filteredResults, setFilteredResults] = useState([])
- 
+  const [noResult, setNoResult] = useState(false)
   console.log('categories: ',categories)
 
 
   const init = () => { 
     getCategories().then(data => {
-      if(data.error){
-        
+      if(data.error){        
         setError(data.error)
         console.log('ERROR AddProduct.js init: ', error)
       } else {
@@ -37,16 +38,13 @@ const Shop = (props) => {
 
   const handlePrice = (id)=> {
     const data = prices
-    let array = []
-    
+    let array = []    
     for(let index in data){
       if(data[index]._id === parseInt(id)){
         array = data[index].array
       }
     }
-
     return array
-
   }
 
 
@@ -65,11 +63,9 @@ const Shop = (props) => {
     }
     loadFilteredResults(myFilters.filters)
     setMyfilters(newFilters)
-    
   }
   console.log('myFilters', myFilters)
   console.log('Shop.js filteredResults: ', filteredResults)
-
 
   const loadFilteredResults = (newFilters) => {
     console.log('loadFilteredResults: ',newFilters)
@@ -81,10 +77,14 @@ const Shop = (props) => {
         setFilteredResults(data.data)
         setSize(data.size)
         setSkip(0)
+        if(data.size === 0){
+          setTimeout(()=>{
+            setNoResult(true)
+          }, 2000)
+        }
       }
     })
   }
-
 
   const loadMore = () => {
     let toSkip = skip + limit
@@ -100,7 +100,6 @@ const Shop = (props) => {
     })
   }
 
-
   const loadMoreButton = () => {
     return (
       size > 0 && size >= limit && (
@@ -114,11 +113,11 @@ const Shop = (props) => {
     loadFilteredResults(myFilters.filters)
   },[])
 
+  
   return (
     <Layout className='container-fluid' title="Shop" description="Node React E-commerce App">
       <div className="row">
         <div className="col-xl-4"> 
-
           <div className="row">
             <div className="col-xl-12 col-sm-6">
             <h4>Filter by Categeory</h4>
@@ -133,13 +132,12 @@ const Shop = (props) => {
             </div>
             </div>
           </div>
-
         </div>
         
         <div className="col-xl-8">
           <h2 className='mb-4'>Search Results</h2>
           <div className='row'>
-            {filteredResults.map((product,i)=>(
+            {filteredResults.length ? filteredResults.map((product,i)=>(
               <div className='col-lg-6 col-sm-12 mb-3' key={i}>
                 <Card 
                 props={props} 
@@ -147,8 +145,13 @@ const Shop = (props) => {
                 itemInCart={checkForItemInCart(product._id)} 
                 />
               </div>
-            ))}
-                      
+            ))
+          : <LoaderOne 
+            waitingMessage='Searching for your products...'
+            noResult={noResult}
+            noResultMessage={`Hmm. We don't seem to have anyhthing matching your filters.`}
+            />
+          }            
           </div>
           <hr/>
           {loadMoreButton()}
