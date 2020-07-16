@@ -5,6 +5,7 @@ import {getProducts} from './apiCore'
 import {checkForItemInCart} from './cartHelpers'
 import Card from './Card'
 import Search from './Search'
+import LoaderOne from './LoaderOne'
 
 const Home = (parentProps) => {
 
@@ -58,35 +59,7 @@ const Home = (parentProps) => {
     loadProductsBySell()
   },[])
 
-  const loader = () => {
-    return(
-      <div className='col-12'>
-        <div className='d-flex justify-content-center'>
-          <div className="spinner-grow mr-2 mb-4 text-primary" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-          <div className="spinner-grow mr-2 mb-4 text-secondary" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-          <div className="spinner-grow mr-2 mb-4 text-success" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-          <div className="spinner-grow mr-2 mb-4 text-danger" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-          <div className="spinner-grow mr-2 mb-4 text-warning" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-          <div className="spinner-grow mr-2 mb-4 text-info" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>        
-        <div className='d-flex justify-content-center mt-4'>
-          <h4>Wait for it...</h4>
-        </div>
-      </div>
-    )
-  }
+  
 
   return (
     <Layout className='container-fluid' title="Home Page" description="Node React E-commerce App">
@@ -97,8 +70,8 @@ const Home = (parentProps) => {
       {productsByArrival.length ? 
       
       transitionsArrival.map(({item, key, props})=>{
-        console.log('ITEM: ', item, 'KEY: ', key, 'PROPS: ', props)
-        console.log(key)
+        /* console.log('ITEM: ', item, 'KEY: ', key, 'PROPS: ', props)
+        console.log(key) */
         return(
         <animated.div style={props} className='col-xl-2 col-lg-4 col-md-6 col-sm-12 mb-3' key={key}>
           <Card 
@@ -109,26 +82,24 @@ const Home = (parentProps) => {
         </animated.div>)
       })
       
-      : loader()}
+      : <LoaderOne />}
       
       </div>
       
       <h2 className='mb-4'>Best Sellers</h2>
       <div className="row">
       {productsBySell.length ? 
-      transitionsBySell.map(({item, key, props})=>(
+      transitionsBySell.slice(0).reverse().map(({item, key, props})=>(
         <animated.div style={props} className='col-xl-2 col-lg-4 col-md-6 col-sm-12 mb-3' key={key}>
           <Card 
           props={parentProps} 
           product={item}
           itemInCart={checkForItemInCart(item._id)} 
           />
-        
         </animated.div>
       ))
-      : loader()
+      : <LoaderOne />
       }
-  
       </div>
     </Layout>
      

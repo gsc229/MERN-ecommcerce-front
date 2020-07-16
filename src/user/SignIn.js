@@ -3,10 +3,10 @@ import {Redirect} from 'react-router-dom'
 import Layout from '../core/Layout'
 import { signin, authenticate, isAuthenticated } from '../auth/index'
 
-const SingIn = () => {
+const SignIn = () => {
 
   const [values, setValues] = useState({    
-    email: 'greg1.@gmail.com',
+    email: 'customer1@mail.com',
     password: '12345678',
     error: '',
     loading: false,
@@ -94,4 +94,4 @@ const SingIn = () => {
   )
 }
 
-export default SingIn
+export default SignIn
