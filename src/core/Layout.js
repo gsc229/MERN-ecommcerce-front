@@ -6,13 +6,14 @@ const Layout = ({
   description='Description', 
   children,
   className,
+  cartQuantity,
   ...props
 
 }) => {
  
   return (
     <div className='layout-wrapper'>
-      <Menu />
+      <Menu children={children} cartQuantity={cartQuantity} />
       <div className='layout-container'>
         <div className="jumbotron">
           <div>

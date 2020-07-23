@@ -8,27 +8,47 @@ import {isAuthenticated} from '../auth'
 const Card = ({
   props,
   product,
+  setCartQuantity=()=>{console.log('UNPASSED PROP: setCartQuantity in Card.js. You need to pass this function down to Card.js. This is the default function')},
   itemInCart=false,
   showViewProductButton = true, 
   showAddToCartButton = true, 
   showChangeQuantityButtons=true, 
   showRemoveProductButton=true,
-  adminControls=false,
-  setRefresh=function(z){ console.log(z)},
-  refresh=false
+  showAdminControls=false,
+  onCartPage=false,
+  setRefreshCart=function(z){ console.log(z)},
+  refreshCart=false
 }) => {
   
   //console.log(product)
   const [redirect, setRedirect] = useState(false)
-  const [count, setCount] = useState(product.count)
-  
+  const [count, setCount] = useState(0)
+  const [buttonDisplay, setButtonDisplay] = useState({
+    showViewProductButton,
+    showAddToCartButton,
+    showChangeQuantityButtons,
+    showRemoveProductButton,
+    showAdminControls,
+    itemInCart
+
+  })
+  console.log('ITEM IN CART :', itemInCart)  
+  // this useEffect listens to the props itemInCart which is a number >= 0 not the state itemInCart
+  useEffect(()=>{
+    setCount(itemInCart)
+  },[buttonDisplay.itemInCart])
+
   // redirects to same page to refresh state
   const refreshRedirect = () => (props.history.push(props.match.url))   
 
   const addToCart = () => {
-    addItem(product, ()=>{      
-      refreshRedirect()
+    addItem(product)
+    setButtonDisplay({
+      ...buttonDisplay,
+      itemInCart: true
+      
     })
+    setCartQuantity(itemTotal())
   }
 
   const shouldRedirect = command => {
@@ -42,18 +62,18 @@ const Card = ({
     if(event.target.value >= 1){
       updateItem(productId, event.target.value)
     }
+    {onCartPage && setRefreshCart(!refreshCart)} // allows <Checkout /> total to updatde
   }
 
   /* ========== BUTTONS & BUTTON CONFIGURATION =================== */
   /* 1. BUTTON - VIEW PRODUCT */
   const viewProductButton = (showButton) => {
-
     const path = isAuthenticated() ? `/product/${product._id}` : '/signin'
-
+    const leftMargin = buttonDisplay.itemInCart ? '' : 'ml-2'
     return(showButton &&
     <Link to={path}>
       <button      
-      className="btn btn-outline-primary mt-2 mb-2 ml-2 mr-2">
+      className={`btn btn-outline-primary mt-2 mb-2 mr-2 ${leftMargin}`}>
         View Product
       </button>
     </Link>)
@@ -72,21 +92,23 @@ const Card = ({
     showButton && <button 
     onClick={()=>{
       removeItem(product._id)      
-      refreshRedirect()
-      if(refreshPage){
-        setRefresh(!refresh)
-      }      
+      setButtonDisplay({
+        ...buttonDisplay,
+        itemInCart: onCartPage
+      })
+      setCartQuantity(itemTotal())
+      {onCartPage && setRefreshCart(!refreshCart)}  
     }} 
     className='btn btn-outline-danger mt-2 mb-2'>Remove Item</button>
   )
   /* 4. INPUT QUANTITY */
   const changeQuantityButtons = (showButtons) => {
     return showButtons &&
-     <div className='input-group mb-3 ml-2'>
+     <div className='input-group mb-2 mt-2'>
        <div className="input-group-prepend">
          <span className="input-group-text">Adjust Quantity</span>
        </div>
-       <input type="number" value={count ? count : 1} className="form-control" onChange={handleChange(product._id)}/>
+       <input type="number" value={count ? count : 1} max={product.quantity} min={1} className="form-control" onChange={handleChange(product._id)}/>
      </div>
   }
   /* 5. BADGE - QTY IN STOCK */
@@ -97,22 +119,20 @@ const Card = ({
   }
 
   
-  /* BUTTON CONFIGURATION FOR PRODUCTS */
+  /* BUTTON CONFIGURATION FOR PRODUCTS -- renderes two different sets based on user role */
   const actionButtons = () => {
-    if(itemInCart){
+    if(buttonDisplay.itemInCart){
       return (
         <div>
           {showStockBadge(product.quantity)}
           <br/>
-          {itemInCart === 'viewing-cart-page' ? '' : <h4 
-          className='ml-2 mt-2'
-          
-          >
+          {onCartPage ? '' : 
+          <h4 className='mt-2'>
             This item is in your cart <i style={{color: '#00DD55'}} class="fas fa-check"></i>
           </h4>}
-          {viewProductButton(showViewProductButton)}
-          {removeProductButton(showRemoveProductButton)}
-          {changeQuantityButtons(showChangeQuantityButtons)}
+          {viewProductButton(buttonDisplay.showViewProductButton)}
+          {removeProductButton(buttonDisplay.showRemoveProductButton)}
+          {changeQuantityButtons(buttonDisplay.showChangeQuantityButtons)}
           
         </div>
       )
@@ -121,21 +141,21 @@ const Card = ({
       <div>
         {showStockBadge(product.quantity)}
         <br/>
-        {addToCartButton(showAddToCartButton)}
-        {viewProductButton(showViewProductButton)}        
-        {adminControls && <AdminControls product={product} />}
+        {addToCartButton(buttonDisplay.showAddToCartButton)}
+        {viewProductButton(buttonDisplay.showViewProductButton)}        
+        {buttonDisplay.showAdminControls && <AdminControls product={product} />}
       </div>
       )
     }
   }
 
-  const card_header_style = itemInCart === true ? 'in_cart_item' : 'name'
+  const card_header_style = buttonDisplay.itemInCart ? 'in_cart_item' : 'name'
 
   return (
     
       <div className="card" style={{minHeight: '600px'}}>
         <div className={`card-header ${card_header_style}`}>
-          {product.name} {itemInCart ? <i class="fas fa-check"></i> : ''}
+          {product.name} {buttonDisplay.itemInCart ? <i class="fas fa-check"></i> : ''}
         </div>
         <div className="card-body">
         {shouldRedirect(redirect)}        

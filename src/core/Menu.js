@@ -13,14 +13,14 @@ const isActive = (history, path)=>{
   }
 }
 
-const Menu = ({history}) => {
+const Menu = ({history, cartQuantity}) => {
   
-  const [refresh, setRefresh] = useState(false)
+  const [total, setTotal] = useState(itemTotal())
 
 
   useEffect(()=>{
-    setRefresh(!refresh)
-  },[itemTotal()])
+    setTotal(itemTotal())
+  },[cartQuantity])
   
   
   
@@ -54,7 +54,7 @@ const Menu = ({history}) => {
         <li className="nav-item">
           <Link 
           className="nav-link" to="/cart" 
-          style={isActive(history, '/cart')}>Cart <sup className='cart-badge'><small>{itemTotal()}</small></sup> </Link>
+          style={isActive(history, '/cart')}>Cart <sup className='cart-badge'><small>{total}</small></sup> </Link>
         </li>       
 
 

@@ -14,7 +14,7 @@ export const addItem = (item, next) => {
   })
 
     localStorage.setItem('cart', JSON.stringify(cart))
-    next()
+    /* next() */
   }
 }
 
@@ -100,18 +100,17 @@ export const checkForItemInCart = (productId) => {
   if(typeof window !== 'undefined'){
     if(localStorage.getItem('cart')){
       cart = JSON.parse(localStorage.getItem('cart'))
-      
     }
     
     cart.map((product)=>{
-      
       if(product._id == productId){
-        
-        inCart = true
+        inCart = product.count
       }
     }) 
-    
+    return inCart
+  } else{
+    return false
   }
-
-  return inCart
+  
+  
 }

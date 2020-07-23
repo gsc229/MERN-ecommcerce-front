@@ -3,7 +3,7 @@ import Card from './Card'
 import {getCategories, list} from './apiCore'
 import {checkForItemInCart} from './cartHelpers'
 
-const Search = ({props}) => {
+const Search = ({props, setCartQuantity}) => {
 
   const [data, setData]=useState({
     categories: [],
@@ -82,6 +82,7 @@ const Search = ({props}) => {
               props={props} 
               product={product} 
               itemInCart={checkForItemInCart(product._id)} 
+              setCartQuantity={setCartQuantity}
             />
             </div>
           ))}
