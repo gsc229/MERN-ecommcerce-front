@@ -69,7 +69,7 @@ const Card = ({
   /* 1. BUTTON - VIEW PRODUCT */
   const viewProductButton = (showButton) => {
     const path = isAuthenticated() ? `/product/${product._id}` : '/signin'
-    const leftMargin = buttonDisplay.itemInCart ? '' : 'ml-2'
+    const leftMargin = buttonDisplay.itemInCart || !showAddToCartButton ? '' : 'ml-2'
     return(showButton &&
     <Link to={path}>
       <button      
