@@ -4,7 +4,7 @@ export const addItem = (item, next) => {
   if(typeof window !== 'undefined'){
     if(localStorage.getItem('cart')){
       cart = JSON.parse(localStorage.getItem('cart'))
-      console.log('IF LS cart',item, cart)
+      console.log('cartHelpers.js addItem IF Local S. cart item, cart',item, cart)
     }
     
     cart.push({...item, count: 1})

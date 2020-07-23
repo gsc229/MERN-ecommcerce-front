@@ -137,5 +137,19 @@ export const deleteProduct = (productId, userId)=>{
   })
   .catch(error=>{
     console.log(error.response)
+    return error
+  })
+}
+
+export const createOrder = (userId, createOrderdata) => {
+  return axiosWIthAuth()
+  .post(`/order/create/${userId}`, createOrderdata)
+  .then(response=>{
+    console.log('POST apiCore createOrder response: ', response)
+    return response
+  })
+  .catch(error=>{
+    console.log('ERROR, apiCore createOrder:', error.response)
+    return error
   })
 }
