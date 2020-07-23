@@ -72,15 +72,42 @@ export const list = (params) => {
   })
 }
 
+
+
+export const getCategory = (categoryId) =>{
+  console.log('apiCore getCategory categoryId: ', categoryId)
+  return axiosWIthAuth()
+  .get(`/category/${categoryId}`)
+  .then(response=>{
+    console.log('apiCore getCategory response: ', response)
+    const category = response.data.category
+    return category
+  })
+  .catch(error=>{
+    console.log("ERROR")
+    console.log('apiCore getCategory error.response: ', error.response)
+    return error.response
+  })
+}
+
 export const read = (productId) => {
   console.log('apiCore read productId: ', productId)
   return axiosWIthAuth()
   .get(`/product/${productId}`)
   .then(response => {
     console.log('apiCore read response: ',response)    
-    const product = response.data.product
-    console.log(product)
-    return product
+    let product = response.data.product
+    return getCategory(product.category)
+    .then(catData=>{
+      console.log('CATEGORY DATA', catData)
+      product = {...product, category: catData}
+      
+      return product
+    })
+    .catch(error=>{
+      console.log('ERROR apiCore READ=>GETCATEGORY ', error)
+      return error
+    })
   })
   .catch(error =>{
     console.log("ERROR")

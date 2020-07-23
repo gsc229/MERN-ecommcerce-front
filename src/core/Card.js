@@ -128,7 +128,7 @@ const Card = ({
           <br/>
           {onCartPage ? '' : 
           <h4 className='mt-2'>
-            This item is in your cart <i style={{color: '#00DD55'}} class="fas fa-check"></i>
+            This item is in your cart <i style={{color: '#00DD55'}} className="fas fa-check"></i>
           </h4>}
           {viewProductButton(buttonDisplay.showViewProductButton)}
           {removeProductButton(buttonDisplay.showRemoveProductButton)}
@@ -155,7 +155,7 @@ const Card = ({
     
       <div className="card" style={{minHeight: '600px'}}>
         <div className={`card-header ${card_header_style}`}>
-          {product.name} {buttonDisplay.itemInCart ? <i class="fas fa-check"></i> : ''}
+          {product.name} {buttonDisplay.itemInCart ? <i className="fas fa-check"></i> : ''}
         </div>
         <div className="card-body">
         {shouldRedirect(redirect)}        

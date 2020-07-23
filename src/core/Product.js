@@ -3,7 +3,7 @@ import Layout from './Layout'
 import Card from './Card'
 import {isAuthenticated} from '../auth/index'
 import RelatedProducts from './RelatedProducts'
-import {read, listRelated} from '../core/apiCore.js'
+import {read, getCategory} from '../core/apiCore.js'
 import {checkForItemInCart, itemTotal} from './cartHelpers'
 
 const Product = (props) => {
@@ -17,20 +17,21 @@ const Product = (props) => {
     read(productId).then(data => {
       console.log("DATA: ",data)
         if (data.error) {
-            setError(data.error);
+          setError(data.error);
         } else {            
-          setProduct(data);        
+          setProduct(data);
         }
-    });
-};
+    })
+  };
 
+  
   useEffect(()=>{
     const productId = props.match.params.productId
     loadProduct(productId)
     setCartQuantity(itemTotal())
   }, [props, refreshCart])
 
-
+  //{product.category && loadCategory(product.category)}
   return (
     <Layout
       title={product && product.name}
@@ -39,11 +40,11 @@ const Product = (props) => {
       cartQuantity={cartQuantity}
     >
       <div className="row">
-        <div className="col-xl-8">
-        {product && product.description && 
+        <div className="col-xl-8 mt-5">
+        {product && product.category && 
         <Card 
         props={props}
-        //showAdminControls={isAuthenticated().user.role === 1}
+        showAdminControls={isAuthenticated().user.role === 1}
         itemInCart={checkForItemInCart(product._id)}
         product={product} 
         showViewProductButton={false}
