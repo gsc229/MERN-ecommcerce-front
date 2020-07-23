@@ -2,11 +2,8 @@ import React, {useState, useEffect} from 'react'
 import {Link, Redirect} from 'react-router-dom'
 import {emptyCart} from './cartHelpers'
 import {isAuthenticated} from '../auth'
-import {getBraintreeClientToken, processPayment} from './apiCore'
+import {getBraintreeClientToken, processPayment, createOrder} from './apiCore'
 import DropIn from 'braintree-web-drop-in-react'
-
-
-
 
 const Checkout = ({
   products, 
@@ -21,7 +18,7 @@ const Checkout = ({
     instance: {},
     address: ''
   })
-
+  const {address} = paymentData
   const userId = isAuthenticated() && isAuthenticated().user._id
   //console.log('PAYMENTDATA.CLIENTTOKEN: ', paymentData.clientToken)
   const getTotal = () => {
@@ -81,13 +78,22 @@ const Checkout = ({
             setPaymentData({...paymentData, error: response.data.message})
             return
           } else{
-            setPaymentData({...paymentData, success: response.data.success})
-            // empty cart 
-            emptyCart(()=>{
-              console.log('PAYMENT SUCCESS AND CART EMPTIED')
-              setRefresh(!refresh)
-            })
-            // create order
+            // send order info to our backend: 
+            const createOrderData = {
+              products: products, // props
+              transaction_id: response.data.transaction.id, 
+              amount: response.data.transaction.amount,
+              address: address // local state
+            }
+            createOrder(userId, createOrderData)// from apiCore POST to backend.
+            .then(response=>{
+              // empty cart
+              emptyCart(()=>{
+                console.log('PAYMENT SUCCESS AND CART EMPTIED')
+                setRefresh(!refresh)
+              })
+              setPaymentData({...paymentData, success: true})
+            }) 
           }
         })
         .catch(error=>{
@@ -100,12 +106,20 @@ const Checkout = ({
       console.log('dropin error: ', error)
       setPaymentData({...paymentData, error: error.message})
     })
-  }
+  } // buy()
 
   const showDropIn = () => (
     <div onBlur={()=> setPaymentData({...paymentData, error: ''})}>
       {paymentData.clientToken !== null && products.length > 0 ? (
         <div>
+          <div className="form-group">
+            <label htmlFor="" className="text-muted">Delivery address:</label>
+            <textarea 
+            value={address} 
+            placeholder="Type your delivery address here..." 
+            onChange={handleAddress} cols="30" rows="10" 
+            className="form-control"></textarea>
+          </div>
           <DropIn 
           options={{
             authorization: paymentData.clientToken,
@@ -119,11 +133,12 @@ const Checkout = ({
         </div>
       ) : null}
     </div>
-  )
+  ) // showDropIn()
 
   const showError = (error) => (
     <div className='alert alert-danger' style={{display: error ? "" : 'none'}}>
-      {error}
+      
+      {error === 'No payment method is available.' ? "You didn't choose a form of payment yet. Please select a form of payment below:" : error}
     </div>
     )
 
@@ -133,17 +148,17 @@ const Checkout = ({
     </div>
     )
 
-  /* const shouldRedirect = redirect => {
-    if(redirect){
-      return <Redirect to={props.match.path} />
-    }
-  } */
+  const handleAddress = (e) => {
+    e.preventDefault()
+    setPaymentData({
+      ...paymentData, address: e.target.value
+    })
+  }
 
   return (
     <div>
       <h2>Total: ${getTotal()}</h2>
       {showSuccess()}
-
       {showError(paymentData.error)}
       {showCheckout()}
     </div>

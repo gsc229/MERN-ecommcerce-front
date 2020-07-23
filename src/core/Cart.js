@@ -47,9 +47,11 @@ const Cart = (props) => {
     >
     
     <div className="row">
+      {/* LEFT SIDE */}
       <div className="col-6">
         {items.length ? showItems(items) : noItemsMessage()}      
       </div>
+      {/* RIGHT SIDE */}
       <div className="col-6">
         <h2 className="mb-4">Your cart summary: </h2>
         <hr />
@@ -60,6 +62,7 @@ const Cart = (props) => {
         />   
       </div>
     </div>
+
     </Layout>
   )
 }
