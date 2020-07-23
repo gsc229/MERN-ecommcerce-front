@@ -13,30 +13,30 @@ const isActive = (history, path)=>{
   }
 }
 
-const Menu = ({history}) => {
+const Menu = ({history, cartQuantity}) => {
   
-  const [refresh, setRefresh] = useState(false)
+  const [total, setTotal] = useState(itemTotal())
 
 
   useEffect(()=>{
-    setRefresh(!refresh)
-  },[itemTotal()])
+    setTotal(itemTotal())
+  },[cartQuantity])
   
   
   
   return (
-  <nav class="navbar navbar-expand-lg navbar-light bg-primary menu-bar">
+  <nav className="navbar navbar-expand-lg navbar-light bg-primary menu-bar">
       <button 
-      class="navbar-toggler" 
+      className="navbar-toggler" 
       type="button" 
       data-toggle="collapse" 
       data-target="#navbarNavDropdown" 
       aria-controls="navbarNavDropdown" 
       aria-expanded="false" 
       aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <div className="collapse navbar-collapse" id="navbarNavDropdown">
         <ul className="navbar-nav nav-tabs bg-primary">
 
         <li className="nav-item">
@@ -54,7 +54,7 @@ const Menu = ({history}) => {
         <li className="nav-item">
           <Link 
           className="nav-link" to="/cart" 
-          style={isActive(history, '/cart')}>Cart <sup className='cart-badge'><small>{itemTotal()}</small></sup> </Link>
+          style={isActive(history, '/cart')}>Cart <sup className='cart-badge'><small>{total}</small></sup> </Link>
         </li>       
 
 

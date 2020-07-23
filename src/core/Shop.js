@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import Layout from './Layout'
 import Card from './Card'
 import {getCategories, getFilteredProducts} from './apiCore'
-import {checkForItemInCart} from './cartHelpers'
+import {checkForItemInCart, itemTotal} from './cartHelpers'
 import Checkbox from './Checkbox'
 import RadioBox from './RadioBox'
 import LoaderOne from './LoaderOne'
@@ -21,9 +21,11 @@ const Shop = (props) => {
   const [size, setSize] = useState(0)
   const [filteredResults, setFilteredResults] = useState([])
   const [noResult, setNoResult] = useState(false)
+  const [cartQuantity,setCartQuantity] = useState(0)
   console.log('categories: ',categories)
 
-
+  // @init: get all the categories when the page loads. Then, initially there are no filters, so loadFilteredResults/getFilteredProducts returns all products with a limit of 6 products and no skips
+  // after, loadMore will add the limit to the skip and set the new skip to that sum.
   const init = () => { 
     getCategories().then(data => {
       if(data.error){        
@@ -31,10 +33,14 @@ const Shop = (props) => {
         console.log('ERROR AddProduct.js init: ', error)
       } else {
         setCategories(data)
+        loadFilteredResults(myFilters.filters)
+        setCartQuantity()
       }
     })
   }
-
+  useEffect(()=>{
+    init()
+  },[])
 
   const handlePrice = (id)=> {
     const data = prices
@@ -74,6 +80,8 @@ const Shop = (props) => {
       if(data.error){
         setError(data.error)
       } else{
+        console.log('loadFilteredResults data: ', data)
+        console.log(checkForItemInCart(data.data[0]._id))
         setFilteredResults(data.data)
         setSize(data.size)
         setSkip(0)
@@ -93,6 +101,8 @@ const Shop = (props) => {
       if(data.error){
         setError(data.error)
       } else{
+        console.log('loadMore data: ', data.data)
+        
         setFilteredResults([...filteredResults, ...data.data])
         setSize(data.size)
         setSkip(toSkip)
@@ -108,14 +118,15 @@ const Shop = (props) => {
     )
   }
 
-  useEffect(()=>{
-    init()
-    loadFilteredResults(myFilters.filters)
-  },[])
+  
 
   
   return (
-    <Layout className='container-fluid' title="Shop" description="Node React E-commerce App">
+    <Layout 
+    className='container-fluid' 
+    title="Shop" 
+    cartQuantity={cartQuantity}
+    description="Node React E-commerce App">
       <div className="row">
         <div className="col-xl-4"> 
           <div className="row">
@@ -142,7 +153,10 @@ const Shop = (props) => {
                 <Card 
                 props={props} 
                 product={product}
-                itemInCart={checkForItemInCart(product._id)} 
+                itemInCart={checkForItemInCart(product._id)}
+                showAddToCartButton={product.quantity > 0}
+                showChangeQuantityButtons={product.quantity > 0}
+                setCartQuantity={setCartQuantity}
                 />
               </div>
             ))

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import Layout from './Layout'
-import {getCart} from './cartHelpers'
+import {getCart, checkForItemInCart, itemTotal} from './cartHelpers'
 import Card from './Card'
 import { Link } from 'react-router-dom'
 import Checkout from './Checkout'
@@ -9,11 +9,13 @@ import Checkout from './Checkout'
 const Cart = (props) => {
 
   const [items, setItems] = useState([])
-  const [refresh, setRefresh] = useState(false)
+  const [refreshCart, setRefreshCart] = useState(false)
+  const [cartQuantity,setCartQuantity] = useState(0)
 
   useEffect(()=>{
     setItems(getCart())
-  }, [refresh])
+    setCartQuantity(itemTotal())
+  }, [refreshCart])
 
 
   const showItems = items => {
@@ -25,11 +27,13 @@ const Cart = (props) => {
           <Card 
           key={i}
           props={props}
+          setCartQuantity={setCartQuantity}
           product={product} 
-          itemInCart={'viewing-cart-page'}
-
-          setRefresh={setRefresh}
-          refresh={refresh}
+          itemInCart={checkForItemInCart(product._id)}
+          onCartPage={true}
+          setRefreshCart={setRefreshCart}
+          refreshCart={refreshCart}
+          
           />
         ))}
       </div>
@@ -44,6 +48,7 @@ const Cart = (props) => {
       title={'Shopping Cart'}
       description={'Manage your cart items. Add, remove, checkout or continue shopping.'}
       className='container-fluid'
+      cartQuantity={cartQuantity}
     >
     
     <div className="row">
@@ -57,8 +62,9 @@ const Cart = (props) => {
         <hr />
         <Checkout 
         products={items} 
-        setRefresh={setRefresh}
-        refresh={refresh}
+        setRefreshCart={setRefreshCart}
+        refreshCart={refreshCart}
+        
         />   
       </div>
     </div>

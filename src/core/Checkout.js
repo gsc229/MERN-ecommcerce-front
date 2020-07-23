@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import {Link, Redirect} from 'react-router-dom'
-import {emptyCart} from './cartHelpers'
+import {emptyCart, checkForItemInCart} from './cartHelpers'
 import {isAuthenticated} from '../auth'
 import {getBraintreeClientToken, processPayment, createOrder} from './apiCore'
 import DropIn from 'braintree-web-drop-in-react'
 
 const Checkout = ({
   products, 
-  setRefresh,
-  refresh}) => {
+  setRefreshCart,
+  refreshCart}) => {
 
   const [redirect, setRedirect] = useState(false)
   const [paymentData, setPaymentData] = useState({
@@ -27,7 +27,11 @@ const Checkout = ({
     },0)
   }
 
-
+  const [total, setTotal] = useState(getTotal())
+  
+  useEffect(()=>{
+    setTotal(getTotal())
+  },[products])
 
   const getToken = (id) => {
     getBraintreeClientToken(id)
@@ -90,7 +94,7 @@ const Checkout = ({
               // empty cart
               emptyCart(()=>{
                 console.log('PAYMENT SUCCESS AND CART EMPTIED')
-                setRefresh(!refresh)
+                setRefreshCart(!refreshCart)
               })
               setPaymentData({...paymentData, success: true})
             }) 
@@ -157,7 +161,7 @@ const Checkout = ({
 
   return (
     <div>
-      <h2>Total: ${getTotal()}</h2>
+      <h2>Total: ${total}</h2>
       {showSuccess()}
       {showError(paymentData.error)}
       {showCheckout()}

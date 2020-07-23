@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {useChain, animated, useSpring, useTransition} from 'react-spring'
 import Layout from './Layout'
 import {getProducts} from './apiCore'
-import {checkForItemInCart} from './cartHelpers'
+import {checkForItemInCart, itemTotal} from './cartHelpers'
 import Card from './Card'
 import Search from './Search'
 import LoaderOne from './LoaderOne'
@@ -12,7 +12,7 @@ const Home = (parentProps) => {
   const [productsBySell, setProductsBySell] = useState([])
   const [productsByArrival, setProductsByArrival] = useState([])
   const [error, setError] = useState([]) 
-  
+  const [cartQuantity, setCartQuantity] = useState(itemTotal())
   // Build a transition for byArrivals
   const transitionsArrival = useTransition(productsByArrival.length ? productsByArrival : [], item => item._id, {
     unique: true,
@@ -62,8 +62,15 @@ const Home = (parentProps) => {
   
 
   return (
-    <Layout className='container-fluid' title="Home Page" description="Node React E-commerce App">
-      <Search props={parentProps} />
+    <Layout 
+    className='container-fluid' 
+    title="Home Page" 
+    cartQuantity={cartQuantity}
+    description="Node React E-commerce App">
+      <Search 
+      props={parentProps} 
+      setCartQuantity={setCartQuantity}
+      />
       <h2 className='mb-4'>New Arrivals</h2>
       
       <div className="row">
@@ -78,6 +85,9 @@ const Home = (parentProps) => {
           props={parentProps} 
           product={item}
           itemInCart={checkForItemInCart(item._id)} 
+          showAddToCartButton={item.quantity > 0}
+          showChangeQuantityButtons={item.quantity > 0}
+          setCartQuantity={setCartQuantity}
           />
         </animated.div>)
       })
@@ -94,7 +104,10 @@ const Home = (parentProps) => {
           <Card 
           props={parentProps} 
           product={item}
-          itemInCart={checkForItemInCart(item._id)} 
+          itemInCart={checkForItemInCart(item._id)}
+          showAddToCartButton={item.quantity > 0}
+          showChangeQuantityButtons={item.quantity > 0} 
+          setCartQuantity={setCartQuantity}
           />
         </animated.div>
       ))

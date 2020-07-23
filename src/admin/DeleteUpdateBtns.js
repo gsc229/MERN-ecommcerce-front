@@ -40,7 +40,7 @@ const DeleteUpdateProduct = ({product}) => {
   /* DELETE PRODUCT BUTTON */
   const deleteButton = () => {
     return (!deleteSuccess && <button
-            className="btn btn-danger mt-2 mb-2 mr-1 ml-1"
+            className="btn btn-danger mt-2 mb-2 mr-2"
             onClick={executeDelete}
           >
           DELETE THIS PRODUCT
@@ -50,7 +50,7 @@ const DeleteUpdateProduct = ({product}) => {
   const editButton = () => {
     return (
       <button 
-      className="btn btn-warning mt-2 mb-2 mr-1 ml-1"
+      className="btn btn-warning mt-2 mb-2 mr-1"
       onClick={()=> setSendToEdit(true)}
       >EDIT</button>)
   }
