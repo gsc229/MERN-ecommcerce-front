@@ -13,6 +13,7 @@ const Home = (parentProps) => {
   const [productsByArrival, setProductsByArrival] = useState([])
   const [error, setError] = useState([]) 
   const [cartQuantity, setCartQuantity] = useState(itemTotal())
+  const [refreshCart, setRefreshCart] = useState(false)
   // Build a transition for byArrivals
   const transitionsArrival = useTransition(productsByArrival.length ? productsByArrival : [], item => item._id, {
     unique: true,
@@ -57,7 +58,7 @@ const Home = (parentProps) => {
   useEffect(()=>{
     loadProductsByArrival()
     loadProductsBySell()
-  },[])
+  },[refreshCart])
 
   
 
@@ -88,6 +89,8 @@ const Home = (parentProps) => {
           showAddToCartButton={item.quantity > 0}
           showChangeQuantityButtons={item.quantity > 0}
           setCartQuantity={setCartQuantity}
+          setRefreshCart={setRefreshCart}
+          refreshCart={refreshCart}
           />
         </animated.div>)
       })
@@ -101,6 +104,7 @@ const Home = (parentProps) => {
       {productsBySell.length ? 
       transitionsBySell.slice(0).reverse().map(({item, key, props})=>(
         <animated.div style={props} className='col-xl-2 col-lg-4 col-md-6 col-sm-12 mb-3' key={key}>
+          {console.log('!!!!!!!!!!!BEST SELLER!!!!!!!!!!!!!!!!!')}
           <Card 
           props={parentProps} 
           product={item}
@@ -108,6 +112,8 @@ const Home = (parentProps) => {
           showAddToCartButton={item.quantity > 0}
           showChangeQuantityButtons={item.quantity > 0} 
           setCartQuantity={setCartQuantity}
+          setRefreshCart={setRefreshCart}
+          refreshCart={refreshCart}
           />
         </animated.div>
       ))

@@ -81,7 +81,7 @@ const Shop = (props) => {
         setError(data.error)
       } else{
         console.log('loadFilteredResults data: ', data)
-        console.log(checkForItemInCart(data.data[0]._id))
+        
         setFilteredResults(data.data)
         setSize(data.size)
         setSkip(0)
