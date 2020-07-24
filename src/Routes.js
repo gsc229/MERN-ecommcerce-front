@@ -14,6 +14,7 @@ import UpdateProduct from './admin/UpdateProduct'
 import Shop from './core/Shop'
 import Product from './core/Product'
 import Cart from './core/Cart'
+import Orders from './admin/Orders'
 import './styles/css/Layout.css'
 
 
@@ -43,6 +44,7 @@ const Routes = () => {
           <AdminRoute path='/create/category' exact compenent={AddCategory} />
           <AdminRoute path='/create/product' exact compenent={AddProduct} />
           <AdminRoute path='/editing/:productId' exact compenent={UpdateProduct} />
+          <AdminRoute path='/admin/orders' exact compenent={Orders} />
           <Route path='/product/:productId' exact component={Product} />  
         </Switch>
     </animated.div>

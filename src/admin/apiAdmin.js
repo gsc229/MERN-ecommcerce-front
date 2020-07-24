@@ -71,3 +71,18 @@ export const updateProduct = (productId, userId, updated_product) => {
       return error.response.data
     })
 }
+
+export const listOrders = (userId) => {
+  return axiosWithAuth()
+    .get(`/order/list/${userId}`)
+    .then(response=>{
+      const orders = response.data
+      console.log('GET apiAdmin listOrder response.data ', response.data)
+      return orders
+      
+    })
+    .catch(error=>{
+      console.log('GET ERROR apiAdmin listOrders error.response', error.response)
+      return error.response.data
+    })
+}

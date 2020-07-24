@@ -22,6 +22,7 @@ const Shop = (props) => {
   const [filteredResults, setFilteredResults] = useState([])
   const [noResult, setNoResult] = useState(false)
   const [cartQuantity,setCartQuantity] = useState(0)
+  const [refreshCart, setRefreshCart] = useState(false)
   console.log('categories: ',categories)
 
   // @init: get all the categories when the page loads. Then, initially there are no filters, so loadFilteredResults/getFilteredProducts returns all products with a limit of 6 products and no skips
@@ -72,6 +73,11 @@ const Shop = (props) => {
   }
   console.log('myFilters', myFilters)
   console.log('Shop.js filteredResults: ', filteredResults)
+
+  /* useEffect(()=>{
+    setRefreshCart(!refreshCart)
+  },[handleFilters]) */
+
 
   const loadFilteredResults = (newFilters) => {
     console.log('loadFilteredResults: ',newFilters)
@@ -148,7 +154,7 @@ const Shop = (props) => {
         <div className="col-xl-8">
           <h2 className='mb-4'>Search Results</h2>
           <div className='row'>
-            {filteredResults.length ? filteredResults.map((product,i)=>(
+            {filteredResults.length > 0 ? filteredResults.map((product,i)=>(
               <div className='col-lg-6 col-sm-12 mb-3' key={i}>
                 <Card 
                 props={props} 
@@ -157,6 +163,7 @@ const Shop = (props) => {
                 showAddToCartButton={product.quantity > 0}
                 showChangeQuantityButtons={product.quantity > 0}
                 setCartQuantity={setCartQuantity}
+                
                 />
               </div>
             ))

@@ -43,7 +43,7 @@ const Card = ({
   },[refreshCart])
 
   // redirects to same page to refresh state
-  const refreshRedirect = () => (props.history.push(props.match.url))   
+  //const refreshRedirect = () => (props.history.push(props.match.url))   
 
   const addToCart = () => {
     addItem(product)
@@ -85,7 +85,7 @@ const Card = ({
   }
   /* 2. BUTTON - ADD TO CART  */
   const addToCartButton = (showButton) => (
-    showButton && <button 
+    showButton && product.quantity > 0 && <button 
     onClick={addToCart} 
     className="btn btn-outline-warning mt-2 mb-2">
         Add to Cart
