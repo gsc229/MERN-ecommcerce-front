@@ -36,7 +36,11 @@ const Card = ({
   // this useEffect listens to the props itemInCart which is a number >= 0 not the state itemInCart
   useEffect(()=>{
     setCount(itemInCart)
-  },[buttonDisplay.itemInCart])
+    setButtonDisplay({
+      ...buttonDisplay,
+      itemInCart: itemInCart
+    })
+  },[refreshCart])
 
   // redirects to same page to refresh state
   const refreshRedirect = () => (props.history.push(props.match.url))   
@@ -49,6 +53,7 @@ const Card = ({
       
     })
     setCartQuantity(itemTotal())
+    setRefreshCart(!refreshCart)
   }
 
   const shouldRedirect = command => {
@@ -62,7 +67,7 @@ const Card = ({
     if(event.target.value >= 1){
       updateItem(productId, event.target.value)
     }
-    {onCartPage && setRefreshCart(!refreshCart)} // allows <Checkout /> total to updatde
+    setRefreshCart(!refreshCart) // allows <Checkout /> total to updatde
   }
 
   /* ========== BUTTONS & BUTTON CONFIGURATION =================== */
@@ -97,7 +102,7 @@ const Card = ({
         itemInCart: onCartPage
       })
       setCartQuantity(itemTotal())
-      {onCartPage && setRefreshCart(!refreshCart)}  
+      setRefreshCart(!refreshCart)
     }} 
     className='btn btn-outline-danger mt-2 mb-2'>Remove Item</button>
   )

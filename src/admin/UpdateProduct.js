@@ -83,9 +83,9 @@ const UpdateProduct = (props) => {
   const handleChange = name => event => {
     const value = name === 'photo' ? event.target.files[0] : event.target.value
     formData.set(name, value)
-    setValues({...values, [name]: value})
+    setValues({...values, [name]: name==='photo' ? URL.createObjectURL(value) : value})
   }
-
+  console.log('photo: ' , photo)
   const redirectToProductPage = () => {
     /* if(sendToProductPage){
       return <Redirect to={`/product/${productId}`} /> 
@@ -114,11 +114,19 @@ const UpdateProduct = (props) => {
     <form onSubmit={clickSubmit} className="mb-3">
       <h4>Current Photo: </h4>
       <Image item={productId} url='product' />
-      <h4>Change Photo: </h4>
-      <div className="form-group">
-        <label className="btn btn-secondary" htmlFor="">
-          <input onChange={handleChange('photo')}  type="file" name="photo" accept="image/*" />
-        </label>        
+      
+      <div style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap'}}>
+        <div className="form-group">
+          <h4>Change Photo: </h4>
+          <label className="btn btn-secondary" htmlFor="">
+            <input onChange={handleChange('photo')}  type="file" name="photo" accept="image/*" />
+          </label>        
+        </div>
+        {photo && 
+        <div>
+          <h4>New Photo: </h4>
+          <img src={photo} alt=""/>
+        </div>}
       </div>
       <div className="form-group">
         <label className="text-muted">Name</label>
