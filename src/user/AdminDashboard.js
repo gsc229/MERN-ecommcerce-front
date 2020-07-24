@@ -3,6 +3,8 @@ import Layout from '../core/Layout'
 import {isAuthenticated} from '../auth'
 import {Link} from 'react-router-dom'
 
+
+
 const AdminDashboard = () => {
   console.log("Is authenticated: ",isAuthenticated())
   const {user: {name, email, role}} = isAuthenticated()
@@ -18,7 +20,10 @@ const AdminDashboard = () => {
             </li>
             <li className="list-group-item">
               <Link className='nav-link' to='/create/product'>Create Product</Link>
-            </li>           
+            </li>
+            <li className="list-group-item">
+              <Link className='nav-link' to='/admin/orders'>Current Orders</Link>
+            </li>            
           </ul>
       </div>
     )
@@ -55,7 +60,7 @@ const adminInfo = () => {
             {adminInfo()}            
           </div>
         </div>
-      
+        
     </Layout>  
   )
 }
