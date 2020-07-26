@@ -5,6 +5,7 @@ import {isAuthenticated} from '../auth'
 import {getBraintreeClientToken, processPayment, createOrder} from './apiCore'
 import DropIn from 'braintree-web-drop-in-react'
 
+
 const Checkout = ({
   products, 
   setRefreshCart,
