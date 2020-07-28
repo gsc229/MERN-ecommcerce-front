@@ -24,11 +24,7 @@ const Card = ({
   const [redirect, setRedirect] = useState(false)
   const [count, setCount] = useState(0)
   const [buttonDisplay, setButtonDisplay] = useState({
-    showViewProductButton,
-    showAddToCartButton,
-    showChangeQuantityButtons,
-    showRemoveProductButton,
-    showAdminControls,
+    
     itemInCart
 
   })
@@ -74,7 +70,7 @@ const Card = ({
   /* 1. BUTTON - VIEW PRODUCT */
   const viewProductButton = (showButton) => {
     const path = isAuthenticated() ? `/product/${product._id}` : '/signin'
-    const leftMargin = buttonDisplay.itemInCart || !showAddToCartButton ? '' : 'ml-2'
+    const leftMargin = itemInCart || !showAddToCartButton ? '' : 'ml-2'
     return(showButton &&
     <Link to={path}>
       <button      
@@ -84,13 +80,15 @@ const Card = ({
     </Link>)
   }
   /* 2. BUTTON - ADD TO CART  */
-  const addToCartButton = (showButton) => (
-    showButton && product.quantity > 0 && <button 
+  
+  const addToCartButton = (showButton) => {
+    console.log('show button? ', showButton, 'quantity: ', product.quantity)
+   return (showButton && product.quantity > 0 && <button 
     onClick={addToCart} 
     className="btn btn-outline-warning mt-2 mb-2">
         Add to Cart
-    </button>
-  )
+    </button>)
+  }
     
   /* 3. BUTTON - REMOVE */
   const removeProductButton = (showButton, refreshPage=true) => (
@@ -126,41 +124,32 @@ const Card = ({
   
   /* BUTTON CONFIGURATION FOR PRODUCTS -- renderes two different sets based on user role */
   const actionButtons = () => {
-    if(buttonDisplay.itemInCart){
+    
       return (
         <div>
           {showStockBadge(product.quantity)}
           <br/>
-          {onCartPage ? '' : 
+          {itemInCart &&
           <h4 className='mt-2'>
             This item is in your cart <i style={{color: '#00DD55'}} className="fas fa-check"></i>
           </h4>}
-          {viewProductButton(buttonDisplay.showViewProductButton)}
-          {removeProductButton(buttonDisplay.showRemoveProductButton)}
-          {changeQuantityButtons(buttonDisplay.showChangeQuantityButtons)}
-          
+          {!itemInCart && addToCartButton(showAddToCartButton)}
+          {viewProductButton(showViewProductButton)}
+          {itemInCart && removeProductButton(showRemoveProductButton)}
+          {itemInCart && changeQuantityButtons(showChangeQuantityButtons)}
+          {showAdminControls && <AdminControls product={product} />}
         </div>
       )
-    } else{
-      return(
-      <div>
-        {showStockBadge(product.quantity)}
-        <br/>
-        {addToCartButton(buttonDisplay.showAddToCartButton)}
-        {viewProductButton(buttonDisplay.showViewProductButton)}        
-        {buttonDisplay.showAdminControls && <AdminControls product={product} />}
-      </div>
-      )
-    }
+    
   }
 
-  const card_header_style = buttonDisplay.itemInCart ? 'in_cart_item' : 'name'
+  const card_header_style = itemInCart ? 'in_cart_item' : 'name'
 
   return (
     
       <div className="card" style={{minHeight: '600px'}}>
         <div className={`card-header ${card_header_style}`}>
-          {product.name} {buttonDisplay.itemInCart ? <i className="fas fa-check"></i> : ''}
+          {product.name} {itemInCart ? <i className="fas fa-check"></i> : ''}
         </div>
         <div className="card-body">
         {shouldRedirect(redirect)}        

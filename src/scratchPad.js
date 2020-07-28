@@ -1,4 +1,4 @@
-<div className='container'>      
+ <div className='container'>      
       <ul className="nav nav-tabs bg-primary">
 
         <li className="nav-item">
@@ -68,4 +68,7 @@
         )}     
 
       </ul>
-    </div>
+    </div> 
+
+  //false && false ? console.log(false) : console.log(true)
+    

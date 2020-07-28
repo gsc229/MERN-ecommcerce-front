@@ -23,7 +23,7 @@ const Layout = ({
           
         </div>
         <div className={className}>
-            {children}
+          {children}
         </div>
       </div>
     </div>
