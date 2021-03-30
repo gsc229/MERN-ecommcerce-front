@@ -55,8 +55,6 @@ export const updateItem = (productId, count) => {
     })
     
     localStorage.setItem('cart',JSON.stringify(cart))
-
-    
   }
 }
 
@@ -111,6 +109,4 @@ export const checkForItemInCart = (productId) => {
   } else{
     return false
   }
-  
-  
 }

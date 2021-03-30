@@ -24,9 +24,7 @@ const Card = ({
   const [redirect, setRedirect] = useState(false)
   const [count, setCount] = useState(0)
   const [buttonDisplay, setButtonDisplay] = useState({
-    
     itemInCart
-
   })
   console.log('ITEM IN CART :', itemInCart)  
   // this useEffect listens to the props itemInCart which is a number >= 0 not the state itemInCart
