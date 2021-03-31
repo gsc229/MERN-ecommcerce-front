@@ -45,21 +45,16 @@ const Product = (props) => {
         <Card 
         props={props}
         showAdminControls={isAuthenticated().user.role === 1}
-        itemInCart={checkForItemInCart(product._id)}
         product={product} 
         showViewProductButton={false}
         showAddToCartButton={product.quantity > 0}
-        showChangeQuantityButtons={product.quantity > 0}        
-        refreshCart={refreshCart}
-        setRefreshCart={setRefreshCart}
-        setCartQuantity={setCartQuantity}
+        showChangeQuantityButtons={product.quantity > 0}  
         />}
         </div>
         <div className="col-xl-4">        
         <RelatedProducts 
         props={props} 
         productId={product._id} 
-        setCartQuantity={setCartQuantity}
         />        
         </div> 
       </div>

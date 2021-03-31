@@ -37,10 +37,8 @@ const RelatedProducts = ({props, productId, setCartQuantity}) => {
           <Card 
           props={props} 
           product={product}
-          itemInCart={checkForItemInCart(product._id)}
           showAddToCartButton={product.quantity > 0}
           showChangeQuantityButtons={product.quantity > 0}
-          setCartQuantity={setCartQuantity}
           />
         </div>
         ))}        
