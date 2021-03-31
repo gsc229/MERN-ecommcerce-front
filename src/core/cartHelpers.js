@@ -45,7 +45,6 @@ export const updateItem = (productId, count) => {
   if(typeof window !== 'undefined'){
     if(localStorage.getItem('cart')){
       cart = JSON.parse(localStorage.getItem('cart'))
-      
     }
     
     cart.map((product, i)=>{
@@ -55,8 +54,6 @@ export const updateItem = (productId, count) => {
     })
     
     localStorage.setItem('cart',JSON.stringify(cart))
-
-    
   }
 }
 
@@ -111,6 +108,4 @@ export const checkForItemInCart = (productId) => {
   } else{
     return false
   }
-  
-  
 }

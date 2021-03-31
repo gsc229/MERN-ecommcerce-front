@@ -1,9 +1,8 @@
-import React, {Fragment, useEffect, useState} from 'react'
+import React, {Fragment} from 'react'
+import { connect } from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 import {signout, isAuthenticated} from '../auth'
-import {itemTotal} from './cartHelpers'
 import '../styles/css/Layout.css'
-
 
 const isActive = (history, path)=>{
   if(history.location.pathname === path){
@@ -13,17 +12,9 @@ const isActive = (history, path)=>{
   }
 }
 
-const Menu = ({history, cartQuantity}) => {
+export const Menu = ({history, itemCount}) => {
   
-  const [total, setTotal] = useState(itemTotal())
-
-
-  useEffect(()=>{
-    setTotal(itemTotal())
-  },[cartQuantity])
-  
-  
-  
+ 
   return (
   <nav className="navbar navbar-expand-lg navbar-light bg-primary menu-bar">
       <button 
@@ -54,7 +45,7 @@ const Menu = ({history, cartQuantity}) => {
         <li className="nav-item">
           <Link 
           className="nav-link" to="/cart" 
-          style={isActive(history, '/cart')}>Cart <sup className='cart-badge'><small>{total}</small></sup> </Link>
+          style={isActive(history, '/cart')}>Cart <sup className='cart-badge'><small>{itemCount}</small></sup> </Link>
         </li>       
 
 
@@ -110,4 +101,12 @@ const Menu = ({history, cartQuantity}) => {
   )
 }
 
-export default withRouter(Menu)
+const mapStateToProps = (state) => ({
+  itemCount: state.cartReducer.itemCount
+})
+
+const mapDispatchToProps = {
+  
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Menu))

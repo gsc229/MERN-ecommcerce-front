@@ -1,19 +1,18 @@
 import React, {useState, useEffect} from 'react'
-import {useChain, animated, useSpring, useTransition} from 'react-spring'
+import {animated, useTransition} from 'react-spring'
 import Layout from './Layout'
 import {getProducts} from './apiCore'
-import {checkForItemInCart, itemTotal} from './cartHelpers'
+import {itemTotal} from './cartHelpers'
 import Card from './Card'
 import Search from './Search'
 import LoaderOne from './LoaderOne'
 
-const Home = (parentProps) => {
+const Home = () => {
 
   const [productsBySell, setProductsBySell] = useState([])
   const [productsByArrival, setProductsByArrival] = useState([])
   const [error, setError] = useState([]) 
   const [cartQuantity, setCartQuantity] = useState(itemTotal())
-  const [refreshCart, setRefreshCart] = useState(false)
   // Build a transition for byArrivals
   const transitionsArrival = useTransition(productsByArrival.length ? productsByArrival : [], item => item._id, {
     unique: true,
@@ -36,7 +35,6 @@ const Home = (parentProps) => {
     .then(data=>{
       if(data.error){
         setError(data.error)
-        console.log('Home.js loadProductBySell Error: ', error)
       } else{
         setProductsBySell(data)
       }
@@ -58,7 +56,7 @@ const Home = (parentProps) => {
   useEffect(()=>{
     loadProductsByArrival()
     loadProductsBySell()
-  },[refreshCart])
+  },[])
 
   
 
@@ -68,8 +66,7 @@ const Home = (parentProps) => {
     title="Home Page" 
     cartQuantity={cartQuantity}
     description="Node React E-commerce App">
-      <Search 
-      props={parentProps} 
+      <Search
       setCartQuantity={setCartQuantity}
       />
       <h2 className='mb-4'>New Arrivals</h2>
@@ -78,19 +75,12 @@ const Home = (parentProps) => {
       {productsByArrival.length ? 
       
       transitionsArrival.map(({item, key, props})=>{
-        /* console.log('ITEM: ', item, 'KEY: ', key, 'PROPS: ', props)
-        console.log(key) */
         return(
         <animated.div style={props} className='col-xl-2 col-lg-4 col-md-6 col-sm-12 mb-3' key={key}>
           <Card 
-          props={parentProps} 
           product={item}
-          itemInCart={checkForItemInCart(item._id)} 
           showAddToCartButton={item.quantity > 0}
           showChangeQuantityButtons={item.quantity > 0}
-          setCartQuantity={setCartQuantity}
-          setRefreshCart={setRefreshCart}
-          refreshCart={refreshCart}
           />
         </animated.div>)
       })
@@ -104,16 +94,10 @@ const Home = (parentProps) => {
       {productsBySell.length ? 
       transitionsBySell.slice(0).reverse().map(({item, key, props})=>(
         <animated.div style={props} className='col-xl-2 col-lg-4 col-md-6 col-sm-12 mb-3' key={key}>
-          {console.log('!!!!!!!!!!!BEST SELLER!!!!!!!!!!!!!!!!!')}
           <Card 
-          props={parentProps} 
           product={item}
-          itemInCart={checkForItemInCart(item._id)}
           showAddToCartButton={item.quantity > 0}
           showChangeQuantityButtons={item.quantity > 0} 
-          setCartQuantity={setCartQuantity}
-          setRefreshCart={setRefreshCart}
-          refreshCart={refreshCart}
           />
         </animated.div>
       ))

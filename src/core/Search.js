@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import Card from './Card'
 import {getCategories, list} from './apiCore'
-import {checkForItemInCart} from './cartHelpers'
 
-const Search = ({props, setCartQuantity}) => {
+const Search = () => {
 
   const [data, setData]=useState({
     categories: [],
@@ -34,7 +33,6 @@ const Search = ({props, setCartQuantity}) => {
   },[category, search])
 
   const searchData = () => {
-    console.log('search, category',search, category)
     if(search || category){
       list({search: search || undefined, category: category })
       .then(response => {
@@ -56,8 +54,6 @@ const Search = ({props, setCartQuantity}) => {
   
   const handleChange = (name) => event => {
     setData({...data, [name]: event.target.value, searched: false})
-    
-    
   }
 
   const searchMessage = (searched, results) => {
@@ -79,10 +75,7 @@ const Search = ({props, setCartQuantity}) => {
           {results.map((product, i)=>(
             <div className='col-xl-2 col-lg-4 col-md-6 col-sm-12 mb-3' key={i}>
               <Card 
-              props={props} 
               product={product} 
-              itemInCart={checkForItemInCart(product._id)} 
-              setCartQuantity={setCartQuantity}
             />
             </div>
           ))}

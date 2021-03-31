@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react'
 import Layout from './Layout'
 import Card from './Card'
 import {getCategories, getFilteredProducts} from './apiCore'
-import {checkForItemInCart, itemTotal} from './cartHelpers'
 import Checkbox from './Checkbox'
 import RadioBox from './RadioBox'
 import LoaderOne from './LoaderOne'
@@ -22,8 +21,6 @@ const Shop = (props) => {
   const [filteredResults, setFilteredResults] = useState([])
   const [noResult, setNoResult] = useState(false)
   const [cartQuantity,setCartQuantity] = useState(0)
-  const [refreshCart, setRefreshCart] = useState(false)
-  console.log('categories: ',categories)
 
   // @init: get all the categories when the page loads. Then, initially there are no filters, so loadFilteredResults/getFilteredProducts returns all products with a limit of 6 products and no skips
   // after, loadMore will add the limit to the skip and set the new skip to that sum.
@@ -57,12 +54,12 @@ const Shop = (props) => {
 
   // filters/filterBy can be either category or price
   const handleFilters = (filters, filterBy) => {
-    console.log('Shop.js handleFilters: ',filters, filterBy)
+    
 
     const newFilters = {...myFilters}
 
     if(filterBy === 'price'){
-      console.log('price Filter: ', filters)
+      
       let priceValues = handlePrice(filters)
       newFilters.filters[filterBy] = priceValues
     } else{
@@ -71,22 +68,14 @@ const Shop = (props) => {
     loadFilteredResults(myFilters.filters)
     setMyfilters(newFilters)
   }
-  console.log('myFilters', myFilters)
-  console.log('Shop.js filteredResults: ', filteredResults)
-
-  /* useEffect(()=>{
-    setRefreshCart(!refreshCart)
-  },[handleFilters]) */
 
 
   const loadFilteredResults = (newFilters) => {
-    console.log('loadFilteredResults: ',newFilters)
     getFilteredProducts(skip, limit, newFilters)
     .then(data=>{
       if(data.error){
         setError(data.error)
       } else{
-        console.log('loadFilteredResults data: ', data)
         
         setFilteredResults(data.data)
         setSize(data.size)
@@ -107,8 +96,6 @@ const Shop = (props) => {
       if(data.error){
         setError(data.error)
       } else{
-        console.log('loadMore data: ', data.data)
-        
         setFilteredResults([...filteredResults, ...data.data])
         setSize(data.size)
         setSkip(toSkip)
@@ -123,9 +110,6 @@ const Shop = (props) => {
       )
     )
   }
-
-  
-
   
   return (
     <Layout 
@@ -159,11 +143,8 @@ const Shop = (props) => {
                 <Card 
                 props={props} 
                 product={product}
-                itemInCart={checkForItemInCart(product._id)}
                 showAddToCartButton={product.quantity > 0}
                 showChangeQuantityButtons={product.quantity > 0}
-                setCartQuantity={setCartQuantity}
-                
                 />
               </div>
             ))
