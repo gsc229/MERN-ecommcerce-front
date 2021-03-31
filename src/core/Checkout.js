@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+
 import {Link, Redirect} from 'react-router-dom'
 import {emptyCart, checkForItemInCart} from './cartHelpers'
 import {isAuthenticated} from '../auth'

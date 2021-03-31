@@ -1,25 +1,28 @@
 import React, {useState, useEffect} from 'react'
+import { connect } from 'react-redux'
 import {Link, Redirect} from 'react-router-dom'
 import AdminControls from '../admin/DeleteUpdateBtns'
 import Image from './ShowImage'
 import moment from 'moment'
-import {addItem, updateItem, removeItem, checkForItemInCart, itemTotal} from './cartHelpers'
+import { checkForItemInCart} from './cartHelpers'
+import { addItem, removeItem, updateItem } from '../actions/cartActions'
 import {isAuthenticated} from '../auth'
 const Card = ({
   props,
   product,
-  setCartQuantity=()=>{console.log('UNPASSED PROP: setCartQuantity in Card.js. You need to pass this function down to Card.js. This is the default function')},
-  itemInCart=false,
+  cart,
+  addItem,
+  removeItem,
+  updateItem,
   showViewProductButton = true, 
   showAddToCartButton = true, 
   showChangeQuantityButtons=true, 
   showRemoveProductButton=true,
   showAdminControls=false,
   onCartPage=false,
-  setRefreshCart=function(z){ console.log(z)},
   refreshCart=false
 }) => {
-  
+  const itemInCart = cart.find(item => item._id === product._id)
   //console.log(product)
   const [redirect, setRedirect] = useState(false)
   const [count, setCount] = useState(0)
@@ -46,8 +49,7 @@ const Card = ({
       itemInCart: true
       
     })
-    setCartQuantity(itemTotal())
-    setRefreshCart(!refreshCart)
+    
   }
 
   const shouldRedirect = command => {
@@ -61,7 +63,7 @@ const Card = ({
     if(event.target.value >= 1){
       updateItem(productId, event.target.value)
     }
-    setRefreshCart(!refreshCart) // allows <Checkout /> total to updatde
+     // allows <Checkout /> total to updatde
   }
 
   /* ========== BUTTONS & BUTTON CONFIGURATION =================== */
@@ -97,8 +99,8 @@ const Card = ({
         ...buttonDisplay,
         itemInCart: onCartPage
       })
-      setCartQuantity(itemTotal())
-      setRefreshCart(!refreshCart)
+      
+      
     }} 
     className='btn btn-outline-danger mt-2 mb-2'>Remove Item</button>
   )
@@ -163,4 +165,14 @@ const Card = ({
   )
 }
 
-export default Card
+const mapStateToProps = (state) => ({
+  cart: state.cartReducer.cart
+})
+
+const mapDispatchToProps = {
+  addItem,
+  removeItem,
+  updateItem
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Card)

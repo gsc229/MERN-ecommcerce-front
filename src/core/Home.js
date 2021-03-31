@@ -85,12 +85,12 @@ const Home = (parentProps) => {
           <Card 
           props={parentProps} 
           product={item}
-          itemInCart={checkForItemInCart(item._id)} 
+          //itemInCart={checkForItemInCart(item._id)} 
           showAddToCartButton={item.quantity > 0}
           showChangeQuantityButtons={item.quantity > 0}
-          setCartQuantity={setCartQuantity}
-          setRefreshCart={setRefreshCart}
-          refreshCart={refreshCart}
+          //setCartQuantity={setCartQuantity}
+          //setRefreshCart={setRefreshCart}
+          //refreshCart={refreshCart}
           />
         </animated.div>)
       })
@@ -108,12 +108,12 @@ const Home = (parentProps) => {
           <Card 
           props={parentProps} 
           product={item}
-          itemInCart={checkForItemInCart(item._id)}
+          //itemInCart={checkForItemInCart(item._id)}
           showAddToCartButton={item.quantity > 0}
           showChangeQuantityButtons={item.quantity > 0} 
-          setCartQuantity={setCartQuantity}
-          setRefreshCart={setRefreshCart}
-          refreshCart={refreshCart}
+          //setCartQuantity={setCartQuantity}
+          //setRefreshCart={setRefreshCart}
+          //refreshCart={refreshCart}
           />
         </animated.div>
       ))
