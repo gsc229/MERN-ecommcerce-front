@@ -16,7 +16,7 @@ const cartReducer = (state=initialState, action) => {
       return{
         ...state,
         cart: [...state.cart, action.payload],
-        itemCount: state.itemCount += 1
+        itemCount: state.itemCount + 1
       }
     
     case constants.UPDATE_ITEM:
