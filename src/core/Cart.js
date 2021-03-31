@@ -25,14 +25,8 @@ const Cart = ({ cart }) => {
         {cart.map((product, i)=>(
           <Card 
           key={i}
-          //props={props}
-          //setCartQuantity={setCartQuantity}
           product={product} 
-          //itemInCart={checkForItemInCart(product._id)}
           onCartPage={true}
-          //setRefreshCart={setRefreshCart}
-          //refreshCart={refreshCart}
-          
           />
         ))}
       </div>

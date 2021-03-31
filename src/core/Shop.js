@@ -71,8 +71,6 @@ const Shop = (props) => {
     loadFilteredResults(myFilters.filters)
     setMyfilters(newFilters)
   }
-  console.log('myFilters', myFilters)
-  console.log('Shop.js filteredResults: ', filteredResults)
 
   /* useEffect(()=>{
     setRefreshCart(!refreshCart)
@@ -80,13 +78,11 @@ const Shop = (props) => {
 
 
   const loadFilteredResults = (newFilters) => {
-    console.log('loadFilteredResults: ',newFilters)
     getFilteredProducts(skip, limit, newFilters)
     .then(data=>{
       if(data.error){
         setError(data.error)
       } else{
-        console.log('loadFilteredResults data: ', data)
         
         setFilteredResults(data.data)
         setSize(data.size)
@@ -159,11 +155,8 @@ const Shop = (props) => {
                 <Card 
                 props={props} 
                 product={product}
-                itemInCart={checkForItemInCart(product._id)}
                 showAddToCartButton={product.quantity > 0}
                 showChangeQuantityButtons={product.quantity > 0}
-                setCartQuantity={setCartQuantity}
-                
                 />
               </div>
             ))

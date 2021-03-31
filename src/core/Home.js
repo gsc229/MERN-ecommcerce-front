@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
-import {useChain, animated, useSpring, useTransition} from 'react-spring'
+import {animated, useTransition} from 'react-spring'
 import Layout from './Layout'
 import {getProducts} from './apiCore'
-import {checkForItemInCart, itemTotal} from './cartHelpers'
+import {itemTotal} from './cartHelpers'
 import Card from './Card'
 import Search from './Search'
 import LoaderOne from './LoaderOne'
@@ -83,14 +83,9 @@ const Home = (parentProps) => {
         return(
         <animated.div style={props} className='col-xl-2 col-lg-4 col-md-6 col-sm-12 mb-3' key={key}>
           <Card 
-          props={parentProps} 
           product={item}
-          //itemInCart={checkForItemInCart(item._id)} 
           showAddToCartButton={item.quantity > 0}
           showChangeQuantityButtons={item.quantity > 0}
-          //setCartQuantity={setCartQuantity}
-          //setRefreshCart={setRefreshCart}
-          //refreshCart={refreshCart}
           />
         </animated.div>)
       })
@@ -106,14 +101,9 @@ const Home = (parentProps) => {
         <animated.div style={props} className='col-xl-2 col-lg-4 col-md-6 col-sm-12 mb-3' key={key}>
           {console.log('!!!!!!!!!!!BEST SELLER!!!!!!!!!!!!!!!!!')}
           <Card 
-          props={parentProps} 
           product={item}
-          //itemInCart={checkForItemInCart(item._id)}
           showAddToCartButton={item.quantity > 0}
           showChangeQuantityButtons={item.quantity > 0} 
-          //setCartQuantity={setCartQuantity}
-          //setRefreshCart={setRefreshCart}
-          //refreshCart={refreshCart}
           />
         </animated.div>
       ))

@@ -45,7 +45,6 @@ export const updateItem = (productId, count) => {
   if(typeof window !== 'undefined'){
     if(localStorage.getItem('cart')){
       cart = JSON.parse(localStorage.getItem('cart'))
-      
     }
     
     cart.map((product, i)=>{

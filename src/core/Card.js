@@ -23,13 +23,13 @@ const Card = ({
   refreshCart=false
 }) => {
   const itemInCart = cart.find(item => item._id === product._id)
-  //console.log(product)
+  ////console.log(product)
   const [redirect, setRedirect] = useState(false)
   const [count, setCount] = useState(0)
   const [buttonDisplay, setButtonDisplay] = useState({
     itemInCart
   })
-  console.log('ITEM IN CART :', itemInCart)  
+
   // this useEffect listens to the props itemInCart which is a number >= 0 not the state itemInCart
   useEffect(()=>{
     setCount(itemInCart)
@@ -59,7 +59,7 @@ const Card = ({
   }
 
   const handleChange = (productId) => event => {
-    setCount(event.target.value < 1 ? 1 :event.target.value)
+    
     if(event.target.value >= 1){
       updateItem(productId, event.target.value)
     }
@@ -82,7 +82,7 @@ const Card = ({
   /* 2. BUTTON - ADD TO CART  */
   
   const addToCartButton = (showButton) => {
-    console.log('show button? ', showButton, 'quantity: ', product.quantity)
+    //console.log('show button? ', showButton, 'quantity: ', product.quantity)
    return (showButton && product.quantity > 0 && <button 
     onClick={addToCart} 
     className="btn btn-outline-warning mt-2 mb-2">
@@ -111,7 +111,14 @@ const Card = ({
        <div className="input-group-prepend">
          <span className="input-group-text">Adjust Quantity</span>
        </div>
-       <input type="number" value={count ? count : 1} max={product.quantity} min={1} className="form-control" onChange={handleChange(product._id)}/>
+       <input 
+       type="number" 
+       value={itemInCart.count ? itemInCart.count : 1} 
+       max={product.quantity} 
+       min={1} 
+       className="form-control" 
+       onChange={handleChange(product._id)}
+       />
      </div>
   }
   /* 5. BADGE - QTY IN STOCK */

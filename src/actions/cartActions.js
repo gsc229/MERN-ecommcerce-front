@@ -6,7 +6,7 @@ export const addItem = (item) => dispatch => {
 
 
 export const updateItem = (productId, count) => dispatch => {
-  dispatch({type: constants.ADD_ITEM_TO_CART, payload: { productId, count }})
+  dispatch({type: constants.UPDATE_ITEM, payload: { productId, count }})
 }
 
 
