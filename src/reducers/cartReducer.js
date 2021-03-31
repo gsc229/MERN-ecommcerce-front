@@ -12,19 +12,27 @@ const cartReducer = (state=initialState, action) => {
   switch(action.type){
 
     case constants.ADD_ITEM_TO_CART:
-
-      const oldItem = state.cart.find(item => item._id === action.payload._id)
-
-      if(oldItem){
-        action.payload.count = parseInt(action.payload.count) + parseInt(oldItem.count)
-      }
-
       return{
         ...state,
-        cart: [...state.cart.filter(item => item._id === action.payload._id), action.payload],
-        itemCount: state.cart.reduce((accum, curr) => {
-         return parseInt(accum.count) + parseInt(curr.count)
-        }, 0)
+        cart: [...state.cart, action.payload],
+        itemCount: state.itemCount += 1
+      }
+    
+    case constants.UPDATE_ITEM:
+      return{
+        ...state,
+        cart: state.cart.map(item => {
+          if(item._id === action.payload.productId) item.count = action.payload.count
+          return item
+        }),
+        itemCount: state.cart.reduce((accum, curr) => { return accum.count + curr.count }, 0)
+      }
+
+    case constants.REMOVE_ITEM_FROM_CART:
+      return{
+        ...state,
+        cart: state.cart.filter(item => item._id !== action.payload.productId),
+        itemCount: state.cart.reduce((accum, curr) => { return accum.count + curr.count }, 0)
       }
 
     default: 
