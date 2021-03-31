@@ -1,8 +1,7 @@
-import React, {Fragment, useEffect, useState} from 'react'
+import React, {Fragment} from 'react'
 import { connect } from 'react-redux'
 import {Link, withRouter} from 'react-router-dom'
 import {signout, isAuthenticated} from '../auth'
-import {itemTotal} from './cartHelpers'
 import '../styles/css/Layout.css'
 
 const isActive = (history, path)=>{
@@ -13,14 +12,9 @@ const isActive = (history, path)=>{
   }
 }
 
-export const Menu = ({history, cartQuantity, itemCount}) => {
+export const Menu = ({history, itemCount}) => {
   
-  const [total, setTotal] = useState(itemTotal())
-
-  useEffect(()=>{
-    setTotal(itemTotal())
-  },[cartQuantity])
-  
+ 
   return (
   <nav className="navbar navbar-expand-lg navbar-light bg-primary menu-bar">
       <button 

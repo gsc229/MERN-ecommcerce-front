@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import Card from './Card'
 import {getCategories, list} from './apiCore'
 
-const Search = ({props}) => {
+const Search = () => {
 
   const [data, setData]=useState({
     categories: [],
@@ -75,7 +75,6 @@ const Search = ({props}) => {
           {results.map((product, i)=>(
             <div className='col-xl-2 col-lg-4 col-md-6 col-sm-12 mb-3' key={i}>
               <Card 
-              props={props} 
               product={product} 
             />
             </div>

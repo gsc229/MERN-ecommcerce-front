@@ -1,8 +1,6 @@
 import * as constants from '../actions'
 
 const initialState = {
-  newArrivals: [],
-  bestSellers: [],
   cart: [],
   itemCount: 0 
 }
@@ -48,6 +46,9 @@ const cartReducer = (state=initialState, action) => {
         cart: state.cart.filter(item => item._id !== action.payload),
         itemCount: state.itemCount - itemToRemoveCount
       }
+
+    case constants.EMPTY_CART:
+      return initialState
 
     default: 
       return state

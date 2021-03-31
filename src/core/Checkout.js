@@ -1,17 +1,16 @@
 import React, {useState, useEffect} from 'react'
-
-import {Link, Redirect} from 'react-router-dom'
-import {emptyCart, checkForItemInCart} from './cartHelpers'
+import { connect } from 'react-redux'
+import {Link} from 'react-router-dom'
+import {emptyCart} from '../actions/cartActions'
 import {isAuthenticated} from '../auth'
 import {getBraintreeClientToken, processPayment, createOrder} from './apiCore'
 import DropIn from 'braintree-web-drop-in-react'
 
 const Checkout = ({
-  products, 
-  setRefreshCart,
-  refreshCart}) => {
+  cart,
+  emptyCart
+}) => {
 
-  const [redirect, setRedirect] = useState(false)
   const [paymentData, setPaymentData] = useState({
     success: false,
     clientToken: null,
@@ -21,9 +20,9 @@ const Checkout = ({
   })
   const {address} = paymentData
   const userId = isAuthenticated() && isAuthenticated().user._id
-  //console.log('PAYMENTDATA.CLIENTTOKEN: ', paymentData.clientToken)
+
   const getTotal = () => {
-    return products.reduce((currentValue, nextValue)=>{
+    return cart.reduce((currentValue, nextValue)=>{
       return currentValue + nextValue.count * nextValue.price
     },0)
   }
@@ -32,7 +31,7 @@ const Checkout = ({
   
   useEffect(()=>{
     setTotal(getTotal())
-  },[products])
+  },[cart])
 
   const getToken = (id) => {
     getBraintreeClientToken(id)
@@ -70,7 +69,7 @@ const Checkout = ({
       nonce = data.nonce
       // once we have the nonce (card type, card number etc) send nonce as 
       // 'paymentMethodNonce' to the backend with the amount to be charged
-      //console.log('sending nonce and total to process payment ', nonce, getTotal(products))
+      //console.log('sending nonce and total to process payment ', nonce, getTotal(cart))
       const paymentData = {
         paymentMethodNonce: nonce,
         amount: getTotal()
@@ -85,7 +84,7 @@ const Checkout = ({
           } else{
             // send order info to our backend: 
             const createOrderData = {
-              products: products, // props
+              products: cart, // props
               transaction_id: response.data.transaction.id, 
               amount: response.data.transaction.amount,
               address: address // local state
@@ -93,10 +92,8 @@ const Checkout = ({
             createOrder(userId, createOrderData)// from apiCore POST to backend.
             .then(response=>{
               // empty cart
-              emptyCart(()=>{
-                console.log('PAYMENT SUCCESS AND CART EMPTIED')
-                setRefreshCart(!refreshCart)
-              })
+              console.log('createOrder: ', {response})
+              emptyCart()
               setPaymentData({...paymentData, success: true})
             }) 
           }
@@ -115,7 +112,7 @@ const Checkout = ({
 
   const showDropIn = () => (
     <div onBlur={()=> setPaymentData({...paymentData, error: ''})}>
-      {paymentData.clientToken !== null && products.length > 0 ? (
+      {paymentData.clientToken !== null && cart.length > 0 ? (
         <div>
           <div className="form-group">
             <label htmlFor="" className="text-muted">Delivery address:</label>
@@ -132,7 +129,7 @@ const Checkout = ({
               flow: "vault"
             }
           }} 
-          onInstance={instance => {return paymentData.instance=instance} }
+          onInstance={instance => {return paymentData.instance=instance}}
           />
           <button onClick={buy} className="btn btn-success btn-block">Pay</button>
         </div>
@@ -170,4 +167,12 @@ const Checkout = ({
   )
 }
 
-export default Checkout
+const mapStateToProps = (state) => ({
+  cart: state.cartReducer.cart
+})
+
+const mapDispatchToProps = {
+  emptyCart
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout)

@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import { connect } from 'react-redux'
 import Layout from './Layout'
-import {getCart, checkForItemInCart, itemTotal} from './cartHelpers'
 import Card from './Card'
 import { Link } from 'react-router-dom'
 import Checkout from './Checkout'
@@ -9,13 +8,6 @@ import Checkout from './Checkout'
 
 const Cart = ({ cart }) => {
   const [refreshCart, setRefreshCart] = useState(false)
-  const [cartQuantity,setCartQuantity] = useState(0)
-
-  useEffect(()=>{
-    
-    setCartQuantity(itemTotal())
-  }, [refreshCart])
-
 
   const showItems = items => {
     return(
@@ -41,7 +33,6 @@ const Cart = ({ cart }) => {
       title={'Shopping Cart'}
       description={'Manage your cart items. Add, remove, checkout or continue shopping.'}
       className='container-fluid'
-      cartQuantity={cartQuantity}
     >
     
     <div className="row">
@@ -54,10 +45,8 @@ const Cart = ({ cart }) => {
         <h2 className="mb-4">Your cart summary: </h2>
         <hr />
         <Checkout 
-        products={cart} 
         setRefreshCart={setRefreshCart}
         refreshCart={refreshCart}
-        
         />   
       </div>
     </div>

@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import { connect } from 'react-redux'
 import {Link, Redirect} from 'react-router-dom'
 import AdminControls from '../admin/DeleteUpdateBtns'
 import Image from './ShowImage'
 import moment from 'moment'
-import { checkForItemInCart} from './cartHelpers'
 import { addItem, removeItem, updateItem } from '../actions/cartActions'
 import {isAuthenticated} from '../auth'
 const Card = ({
@@ -18,38 +17,14 @@ const Card = ({
   showAddToCartButton = true, 
   showChangeQuantityButtons=true, 
   showRemoveProductButton=true,
-  showAdminControls=false,
-  onCartPage=false,
-  refreshCart=false
+  showAdminControls=false
 }) => {
   const itemInCart = cart.find(item => item._id === product._id)
-  ////console.log(product)
+  
   const [redirect, setRedirect] = useState(false)
-  const [count, setCount] = useState(0)
-  const [buttonDisplay, setButtonDisplay] = useState({
-    itemInCart
-  })
-
-  // this useEffect listens to the props itemInCart which is a number >= 0 not the state itemInCart
-  useEffect(()=>{
-    setCount(itemInCart)
-    setButtonDisplay({
-      ...buttonDisplay,
-      itemInCart: itemInCart
-    })
-  },[refreshCart])
-
-  // redirects to same page to refresh state
-  //const refreshRedirect = () => (props.history.push(props.match.url))   
 
   const addToCart = () => {
     addItem(product)
-    setButtonDisplay({
-      ...buttonDisplay,
-      itemInCart: true
-      
-    })
-    
   }
 
   const shouldRedirect = command => {
@@ -59,11 +34,9 @@ const Card = ({
   }
 
   const handleChange = (productId) => event => {
-    
     if(event.target.value >= 1){
       updateItem(productId, event.target.value)
     }
-     // allows <Checkout /> total to updatde
   }
 
   /* ========== BUTTONS & BUTTON CONFIGURATION =================== */
@@ -91,16 +64,10 @@ const Card = ({
   }
     
   /* 3. BUTTON - REMOVE */
-  const removeProductButton = (showButton, refreshPage=true) => (
+  const removeProductButton = (showButton) => (
     showButton && <button 
     onClick={()=>{
-      removeItem(product._id)      
-      setButtonDisplay({
-        ...buttonDisplay,
-        itemInCart: onCartPage
-      })
-      
-      
+      removeItem(product._id)     
     }} 
     className='btn btn-outline-danger mt-2 mb-2'>Remove Item</button>
   )

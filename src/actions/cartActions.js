@@ -15,3 +15,6 @@ export const removeItem = (productId) => dispatch => {
 }
 
 
+export const emptyCart = () => dispatch => {
+  dispatch({type: constants.EMPTY_CART})
+}
