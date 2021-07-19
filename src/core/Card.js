@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import {Link, Redirect} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import AdminControls from '../admin/DeleteUpdateBtns'
 import Image from './ShowImage'
 import moment from 'moment'
@@ -21,17 +21,13 @@ const Card = ({
 }) => {
   const itemInCart = cart.find(item => item._id === product._id)
   
-  const [redirect, setRedirect] = useState(false)
+  
 
   const addToCart = () => {
     addItem(product)
   }
 
-  const shouldRedirect = command => {
-    if(command){
-      return <Redirect to={props.match.path} />
-    }
-  }
+ 
 
   const handleChange = (productId) => event => {
     if(event.target.value >= 1){
@@ -125,8 +121,7 @@ const Card = ({
         <div className={`card-header ${card_header_style}`}>
           {product.name} {itemInCart ? <i className="fas fa-check"></i> : ''}
         </div>
-        <div className="card-body">
-        {shouldRedirect(redirect)}        
+        <div className="card-body">       
         <Image item={product} url='product' />
         <p className='lead mt-2'>{product.description.substring(0, 100)}...</p>
         <p className='black-10'>${product.price}</p>

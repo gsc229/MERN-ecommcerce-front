@@ -4,7 +4,7 @@ const LoaderOne = ({waitingMessage="Wait for it...", noResult=false, noResultMes
 
 const failMessage = noResultMessage ? noResultMessage : "Sorry. We got nothin."
 
-{return noResult ? (
+return noResult ? (
   <div className="col-12 mt-4 mb-4" style={{textAlign: 'center'}}>
     <h3>{failMessage}</h3>
   </div>
@@ -34,7 +34,7 @@ const failMessage = noResultMessage ? noResultMessage : "Sorry. We got nothin."
       <h4>{waitingMessage}</h4>
       </div>
     </div>
-  )}
+  )
 }
 
 export default LoaderOne

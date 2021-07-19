@@ -14,23 +14,26 @@ const Search = () => {
 
   const { categories, category, search, results, searched } = data
 
-  const loadCategories = () => {
-    getCategories().then(data => {
-      if(data.error){
-        console.log(data.error)
-      } else{
-        setData({...data, categories: data})
-      }
-    })
-  }
+  
 
   useEffect(()=>{
+    const loadCategories = () => {
+      getCategories().then(data => {
+        if(data.error){
+          console.log(data.error)
+        } else{
+          setData({...data, categories: data})
+        }
+      })
+    }
+
+
     loadCategories()
   },[])
 
-  useEffect(()=>{
+  /* useEffect(()=>{
     searchData()
-  },[category, search])
+  },[category, search]) */
 
   const searchData = () => {
     if(search || category){

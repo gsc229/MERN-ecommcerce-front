@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Fragment}  from 'react'
+import React, { useState }  from 'react'
 
 const RadioBox = ({prices, handleFilters}) => {
 
@@ -7,6 +7,7 @@ const RadioBox = ({prices, handleFilters}) => {
   const handleChange = (event) => {
     handleFilters(event.target.value, 'price')
     setValue(event.target.value)
+    console.log(value)
   }
 
   return (

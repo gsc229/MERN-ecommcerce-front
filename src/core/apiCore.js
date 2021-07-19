@@ -1,7 +1,6 @@
 import axiosWIthAuth from '../utils/axiosWithAuth'
 import {sortByName} from '../utils/sorterFunctions'
 import queryString from 'query-string'
-import {API} from '../config'
 
 export const getProducts = (sortBy) => {
   return axiosWIthAuth()

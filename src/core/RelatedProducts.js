@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Card from './Card'
 import {listRelated} from './apiCore'
-import {checkForItemInCart} from './cartHelpers'
-const RelatedProducts = ({props, productId, setCartQuantity}) => {
+const RelatedProducts = ({ props, productId }) => {
   const [relatedProducts, setRelatedProducts] = useState([]) 
 
   useEffect(()=>{

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 import Layout from './Layout'
 import Card from './Card'
 import {getCategories, getFilteredProducts} from './apiCore'
@@ -14,8 +14,8 @@ const Shop = (props) => {
   })
   // set by backend code
   const [categories, setCategories] = useState([])
-  const [error, setError] = useState([])
-  const [limit, setLimit] = useState(6)
+  const [error, setError] = useState()
+  const limit = 6
   const [skip, setSkip] = useState(0)
   const [size, setSize] = useState(0)
   const [filteredResults, setFilteredResults] = useState([])
@@ -24,21 +24,45 @@ const Shop = (props) => {
 
   // @init: get all the categories when the page loads. Then, initially there are no filters, so loadFilteredResults/getFilteredProducts returns all products with a limit of 6 products and no skips
   // after, loadMore will add the limit to the skip and set the new skip to that sum.
-  const init = () => { 
-    getCategories().then(data => {
-      if(data.error){        
-        setError(data.error)
-        console.log('ERROR AddProduct.js init: ', error)
-      } else {
-        setCategories(data)
-        loadFilteredResults(myFilters.filters)
-        setCartQuantity()
-      }
-    })
-  }
+  if(error) console.log(error)
+
+  const loadFilteredResults = useCallback(
+    (newFilters) => {
+      getFilteredProducts(skip, limit, newFilters)
+      .then(data=>{
+        if(data.error){
+          setError(data.error)
+        } else{
+          
+          setFilteredResults(data.data)
+          setSize(data.size)
+          setSkip(0)
+          if(data.size === 0){
+            setTimeout(()=>{
+              setNoResult(true)
+            }, 2000)
+          }
+        }
+      })
+    }, [skip])
+ 
   useEffect(()=>{
-    init()
-  },[])
+    const init = () => { 
+      getCategories().then(data => {
+        if(data.error){        
+          setError(data.error)
+
+        } else {
+          setCategories(data)
+          loadFilteredResults(myFilters.filters)
+          setCartQuantity()
+        }
+      })
+    }
+
+    if(!categories.length) init()
+
+  },[myFilters.filters, loadFilteredResults, categories.length])
 
   const handlePrice = (id)=> {
     const data = prices
@@ -50,6 +74,8 @@ const Shop = (props) => {
     }
     return array
   }
+
+  
 
 
   // filters/filterBy can be either category or price
@@ -69,25 +95,6 @@ const Shop = (props) => {
     setMyfilters(newFilters)
   }
 
-
-  const loadFilteredResults = (newFilters) => {
-    getFilteredProducts(skip, limit, newFilters)
-    .then(data=>{
-      if(data.error){
-        setError(data.error)
-      } else{
-        
-        setFilteredResults(data.data)
-        setSize(data.size)
-        setSkip(0)
-        if(data.size === 0){
-          setTimeout(()=>{
-            setNoResult(true)
-          }, 2000)
-        }
-      }
-    })
-  }
 
   const loadMore = () => {
     let toSkip = skip + limit

@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import {Redirect} from 'react-router-dom'
 import Layout from '../core/Layout'
 import Image from '../core/ShowImage'
 import {isAuthenticated} from '../auth'
@@ -9,7 +8,6 @@ import {updateProduct,getProduct, getCategories} from './apiAdmin'
 
 const UpdateProduct = (props) => {
   const [categories, setCategories] = useState([])
-  const [sendToProductPage, setSendToProductPage] = useState(false)
   const [values, setValues] = useState({
     name: '',
     description: '',
@@ -42,32 +40,33 @@ const UpdateProduct = (props) => {
   //console.log('VALUES: ',values)
   const {user} = isAuthenticated()
   //console.log('USER: ', user)
-  const init = () => { 
-    getCategories()
-        .then(data => {
-          if(data.error){
-            console.log('ERROR UpdateProduct.js init', data.error)
-            setValues({...values, error: data.error})
-          } else {
-            setCategories(data)
-          }
-        })
-
-    getProduct(productId)
-    .then(data=>{
-      console.log('DATA: ', data)
-      if(data.error){
-        console.log('ERROR UpdateProduct.js init', data.error)
-        setValues({...values, error: data.error})
-      } else{
-        setValues({...values, ...data, formData: new FormData(), error: ''})
-      }
-    })
-  }
-
+  
   useEffect(()=>{
+    const init = () => { 
+      getCategories()
+          .then(data => {
+            if(data.error){
+              console.log('ERROR UpdateProduct.js init', data.error)
+              setValues(vals => ({...vals, error: data.error}))
+            } else {
+              setCategories(data)
+            }
+          })
+  
+      getProduct(productId)
+      .then(data=>{
+        console.log('DATA: ', data)
+        if(data.error){
+          console.log('ERROR UpdateProduct.js init', data.error)
+          setValues(vals => ({...vals, error: data.error}))
+        } else{
+          setValues({...values, ...data, formData: new FormData(), error: ''})
+        }
+      })
+    }
+
     init()
-  },[])
+  },[productId, values])
 
   /* After setting the current product info, put current info into the formData object */
   if(name){for(const [key, value] of Object.entries(values)){
@@ -101,7 +100,7 @@ const UpdateProduct = (props) => {
     .then(data=>{
       if(data.error){
         console.log('ERROR AddProduct.js clickSubmit')
-        setValues({...values, error: data.error})
+        setValues(vals => ({...vals, error: data.error}))
       } else{ 
         console.log('DATA CLICK SUBMIT: ', data)
         //setSendToProductPage(true)

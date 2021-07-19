@@ -30,30 +30,34 @@ const Home = () => {
     leave: {opacity: 0, transform: 'scale(0)'}
   })
 
-  const loadProductsBySell = ()=>{
-    getProducts('sold')
-    .then(data=>{
-      if(data.error){
-        setError(data.error)
-      } else{
-        setProductsBySell(data)
-      }
-    })
-  }
-
-  const loadProductsByArrival = ()=>{
-    getProducts('createdAt')
-    .then(data=>{
-      if(data.error){
-        setError(data.error)
-      } else{
-        setProductsByArrival(data)
-      }
-    })
-  }
-
+  
+  if(error) console.log(error)
 
   useEffect(()=>{
+
+    const loadProductsBySell = ()=>{
+      getProducts('sold')
+      .then(data=>{
+        if(data.error){
+          setError(data.error)
+        } else{
+          setProductsBySell(data)
+        }
+      })
+    }
+  
+    const loadProductsByArrival = ()=>{
+      getProducts('createdAt')
+      .then(data=>{
+        if(data.error){
+          setError(data.error)
+        } else{
+          setProductsByArrival(data)
+        }
+      })
+    }
+
+
     loadProductsByArrival()
     loadProductsBySell()
   },[])

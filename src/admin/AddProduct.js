@@ -38,19 +38,22 @@ const AddProduct = () => {
 
   const {user} = isAuthenticated()
   
-  const init = () => { 
-    getCategories().then(data => {
-      if(data.error){
-        console.log('ERROR AddProduct.js init')
-        setValues({...values, error: data.error})
-      } else {
-        setValues({...values, categories: data, formData: new FormData(), error: ''})
-      }
-    })
-  }
+  
 
 
   useEffect(()=>{
+    const init = () => { 
+      getCategories().then(data => {
+        if(data.error){
+          console.log('ERROR AddProduct.js init')
+          setValues(vals =>  ({...vals, error: data.error}))
+        } else {
+          setValues(vals => ({...vals, categories: data, formData: new FormData(), error: ''}))
+        }
+      })
+    }
+
+
     init()
   },[])
 

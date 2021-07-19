@@ -1,6 +1,6 @@
 import React from 'react'
 import {Switch, Route, useLocation}  from 'react-router-dom'
-import {animated, useTransition, config} from 'react-spring'
+import {animated, useTransition} from 'react-spring'
 import SignUp from './user/SignUp'
 import SignIn from './user/SignIn'
 import Home from './core/Home'

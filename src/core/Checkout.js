@@ -27,27 +27,28 @@ const Checkout = ({
     },0)
   }
 
-  const [total, setTotal] = useState(getTotal())
+  const total = getTotal()
   
-  useEffect(()=>{
-    setTotal(getTotal())
-  },[cart])
+  
 
-  const getToken = (id) => {
-    getBraintreeClientToken(id)
-    .then(data=>{
-      if(data.error){
-        setPaymentData({...paymentData, error: data.error})
-      } else{
-        //console.log('Checkout.js getToken clientToken data: ', data)
-        setPaymentData({...paymentData, clientToken: data.clientToken})
-      }
-    })
-  }
+  
   //console.log(data.clientToken)
   useEffect(()=>{
+
+    const getToken = (id) => {
+      getBraintreeClientToken(id)
+      .then(data=>{
+        if(data.error){
+          setPaymentData(d => ({...d, error: data.error}))
+        } else{
+          //console.log('Checkout.js getToken clientToken data: ', data)
+          setPaymentData(d => ({...d, clientToken: data.clientToken}))
+        }
+      })
+    }
+
     getToken(userId)
-  }, [])
+  }, [userId])
 
   const showCheckout = () => {
     return (
@@ -63,7 +64,7 @@ const Checkout = ({
     // send the nonce (data.instance.requestPaymentMethod()) 
     // nonce is the payment method
     let nonce;
-    let getNonce = paymentData.instance.requestPaymentMethod()
+    paymentData.instance.requestPaymentMethod()
     .then(data=>{
       console.log('Checkout.js buy getNonce data', data)
       nonce = data.nonce

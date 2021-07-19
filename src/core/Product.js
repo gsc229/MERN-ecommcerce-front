@@ -3,33 +3,36 @@ import Layout from './Layout'
 import Card from './Card'
 import {isAuthenticated} from '../auth/index'
 import RelatedProducts from './RelatedProducts'
-import {read, getCategory} from '../core/apiCore.js'
-import {checkForItemInCart, itemTotal} from './cartHelpers'
+import { read } from '../core/apiCore.js'
+import { itemTotal } from './cartHelpers'
 
 const Product = (props) => {
   const [product, setProduct] = useState({})   
-  const [refreshCart, setRefreshCart] = useState(false)
   const [error, setError] = useState(false)
   const [cartQuantity,setCartQuantity] = useState(0)
-  //console.log('PRODUCT PROPS: ', props)
-  const loadProduct = productId => {
-    console.log('!!!!!!!!!!!!!!LOAD PRODUCT!!!!!!!!!!!!!!')
-    read(productId).then(data => {
-      console.log("DATA: ",data)
-        if (data.error) {
-          setError(data.error);
-        } else {            
-          setProduct(data);
-        }
-    })
-  };
-
+  
   
   useEffect(()=>{
     const productId = props.match.params.productId
+
+    const loadProduct = productId => {
+      console.log('!!!!!!!!!!!!!!LOAD PRODUCT!!!!!!!!!!!!!!')
+      read(productId).then(data => {
+        console.log("DATA: ",data)
+          if (data.error) {
+            setError(data.error);
+            console.log(error)
+          } else {            
+            setProduct(data);
+          }
+      })
+    };
+  
+
+
     loadProduct(productId)
     setCartQuantity(itemTotal())
-  }, [props, refreshCart])
+  }, [props, error])
 
   //{product.category && loadCategory(product.category)}
   return (

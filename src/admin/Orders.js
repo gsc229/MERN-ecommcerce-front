@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import Layout from '../core/Layout'
 import {isAuthenticated} from '../auth'
-import {Link} from 'react-router-dom'
 import {listOrders} from './apiAdmin'
 import moment from 'moment'
 
@@ -12,17 +11,18 @@ const Orders = () => {
   const {user} = isAuthenticated()
   console.log('USER: ' ,user)
 
-  const loadOrders = () => {
-    listOrders(user._id)
-    .then(data=>{
-      console.log('Orders.js listOrders() orders data: ', data)
-      setOrders(data)
-    })
-  }
+  
 
   useEffect(()=>{
+    const loadOrders = () => {
+      listOrders(user._id)
+      .then(data=>{
+        console.log('Orders.js listOrders() orders data: ', data)
+        setOrders(data)
+      })
+    }
     loadOrders()
-  },[])
+  },[user._id])
 
  
 
