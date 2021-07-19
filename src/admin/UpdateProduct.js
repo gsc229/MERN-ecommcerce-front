@@ -60,13 +60,13 @@ const UpdateProduct = (props) => {
           console.log('ERROR UpdateProduct.js init', data.error)
           setValues(vals => ({...vals, error: data.error}))
         } else{
-          setValues({...values, ...data, formData: new FormData(), error: ''})
+          setValues( vals => ({...vals, ...data, formData: new FormData(), error: ''}))
         }
       })
     }
 
     init()
-  },[productId, values])
+  },[productId])
 
   /* After setting the current product info, put current info into the formData object */
   if(name){for(const [key, value] of Object.entries(values)){
