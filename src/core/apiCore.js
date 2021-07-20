@@ -69,7 +69,6 @@ export const list = (params) => {
 };
 
 export const getCategory = (categoryId) => {
-
   return axiosWIthAuth()
     .get(`/category/${categoryId}`)
     .then((response) => {
@@ -83,15 +82,12 @@ export const getCategory = (categoryId) => {
 };
 
 export const read = (productId) => {
-
   return axiosWIthAuth()
     .get(`/product/${productId}`)
     .then((response) => {
-
       let product = response.data.product;
       return getCategory(product.category)
         .then((catData) => {
-
           product = { ...product, category: catData };
 
           return product;
@@ -151,7 +147,7 @@ export const deleteProduct = (productId, userId) => {
       return response;
     })
     .catch((error) => {
-      console.log( "ERROR deleteProduct: ", error.response);
+      console.log("ERROR deleteProduct: ", error.response);
       return error;
     });
 };

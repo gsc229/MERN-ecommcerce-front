@@ -1,29 +1,28 @@
 /* Nav items */
-.menu-bar{
+.menu-bar {
   position: fixed;
   width: 100%;
   z-index: 100;
 }
 
-.layout-container{
+.layout-container {
   width: 100%;
   position: relative;
   top: 30px;
-  
 }
 
-.cart-badge{
+.cart-badge {
   padding: 5px;
   font-size: 15px;
   font-style: italic;
   border-radius: 50%;
-  display: inline-block;  
+  display: inline-block;
   height: 20px;
-  width: 20px;    
+  width: 20px;
   font-weight: bolder;
 }
 
-.cart-badge small{
+.cart-badge small {
   /* position: relative;
   color: orangered;
   font-weight: bolder;
@@ -52,18 +51,17 @@
   padding: 0 9px;
 }
 
-
-
-
 /* 
  border radius
 */
 
-.btn, .jumbotron, .nav :hover{
+.btn,
+.jumbotron,
+.nav :hover {
   border-radius: 0px;
 }
 
-.product-img{
+.product-img {
   min-height: 100px;
 }
 
@@ -71,24 +69,22 @@
  * single product page - product name 
 */
 
-.name{
+.name {
   background: indigo;
   border: indigo;
   color: white;
   font-weight: bold;
 }
 
-.in_cart_item{
-  background: #00DD55;
+.in_cart_item {
+  background: #00dd55;
   color: black;
   font-weight: bold;
 }
 
-
 /* CARDS */
-.card-body p{
+.card-body p {
   padding: 10px;
-  
 }
 
 /* black shade form 10-1 */
@@ -115,12 +111,12 @@
  * jumbotron animation
 */
 
-.jumbotron h2{
+.jumbotron h2 {
   margin-top: -20px;
 }
 
-@media only screen and (max-width: 600px){
-  .jumbotron h2{
+@media only screen and (max-width: 600px) {
+  .jumbotron h2 {
     margin-top: 10px;
   }
 }
@@ -138,36 +134,36 @@
 
 @-webkit-keyframes Gradient {
   0% {
-      background-position: 0% 50%;
+    background-position: 0% 50%;
   }
   50% {
-      background-position: 100% 50%;
+    background-position: 100% 50%;
   }
   100% {
-      background-position: 0% 50%;
+    background-position: 0% 50%;
   }
 }
 
 @-moz-keyframes Gradient {
   0% {
-      background-position: 0% 50%;
+    background-position: 0% 50%;
   }
   50% {
-      background-position: 100% 50%;
+    background-position: 100% 50%;
   }
   100% {
-      background-position: 0% 50%;
+    background-position: 0% 50%;
   }
 }
 
 @keyframes Gradient {
   0% {
-      background-position: 0% 50%;
+    background-position: 0% 50%;
   }
   50% {
-      background-position: 100% 50%;
+    background-position: 100% 50%;
   }
   100% {
-      background-position: 0% 50%;
+    background-position: 0% 50%;
   }
 }

@@ -12,8 +12,6 @@ const Product = (props) => {
   const cartQuantity = itemTotal();
   const productId = props.match.params.productId;
   useEffect(() => {
-    
-
     const loadProduct = (productId) => {
       read(productId).then((data) => {
         if (data.error) {
@@ -25,9 +23,7 @@ const Product = (props) => {
       });
     };
 
-    if(!product) loadProduct(productId);
-
-    
+    if (!product) loadProduct(productId);
   }, [product, error, productId]);
 
   //{product.category && loadCategory(product.category)}
