@@ -1,31 +1,26 @@
-import React from 'react'
-import Menu from './Menu'
-import '../styles.css'
+import React from "react";
+import Menu from "./Menu";
+import "../styles.css";
 const Layout = ({
-  title = 'Title', 
-  description='Description', 
+  title = "Title",
+  description = "Description",
   children,
-  className
+  className,
 }) => {
- 
   return (
-    <div className='layout-wrapper'>
+    <div className="layout-wrapper">
       <Menu children={children} />
-      <div className='layout-container'>
+      <div className="layout-container">
         <div className="jumbotron">
           <div>
             <h2>{title}</h2>
-            <p className='lead'>{description}</p>
+            <p className="lead">{description}</p>
           </div>
         </div>
-        <div className={className}>
-          {children}
-        </div>
+        <div className={className}>{children}</div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Layout
-
-
+export default Layout;
