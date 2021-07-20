@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 
 
 const AdminDashboard = () => {
-  console.log("Is authenticated: ",isAuthenticated())
+  
   const {user: {name, email, role}} = isAuthenticated()
 
 

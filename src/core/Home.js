@@ -11,7 +11,7 @@ const Home = () => {
 
   const [productsBySell, setProductsBySell] = useState([])
   const [productsByArrival, setProductsByArrival] = useState([])
-  const [error, setError] = useState([]) 
+  const [error, setError] = useState() 
   const [cartQuantity, setCartQuantity] = useState(itemTotal())
   // Build a transition for byArrivals
   const transitionsArrival = useTransition(productsByArrival.length ? productsByArrival : [], item => item._id, {
