@@ -9,6 +9,7 @@
   width: 100%;
   position: relative;
   top: 30px;
+  padding-bottom: 100px;
 }
 
 .cart-badge {
@@ -69,22 +70,25 @@
  * single product page - product name 
 */
 
+
+
+/* CARDS */
+
+.card-body p {
+  padding: 5px;
+
+}
+
 .name {
-  background: indigo;
-  border: indigo;
+  background-color: indigo;
   color: white;
   font-weight: bold;
 }
 
-.in_cart_item {
+.in-cart-item {
   background: #00dd55;
   color: black;
   font-weight: bold;
-}
-
-/* CARDS */
-.card-body p {
-  padding: 10px;
 }
 
 /* black shade form 10-1 */
