@@ -10,7 +10,7 @@ const ShowImage = ({ item, url }) => {
         src={`${API}/${url}/photo/${productId}`}
         alt={item.name}
         className="mb-3"
-        style={{ maxHeight: "100%", maxWidth: "100%" }}
+        style={{ maxHeight: "100%", maxWidth: "250px", width: "100%" }}
       />
     </div>
   );

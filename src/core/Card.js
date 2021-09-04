@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AdminControls from "../admin/DeleteUpdateBtns";
 import Image from "./ShowImage";
 import moment from "moment";
@@ -19,7 +19,8 @@ const Card = ({
   showAdminControls = false,
 }) => {
   const itemInCart = cart.find((item) => item._id === product._id);
-
+  const params = useParams()
+  console.log({params})
   const addToCart = () => {
     addItem(product);
   };
@@ -134,7 +135,7 @@ const Card = ({
       </div>
       <div className="card-body">
         <Image item={product} url="product" />
-        <p className="lead mt-2">{product.description.substring(0, 100)}...</p>
+        <p className="lead mt-2">{params.productId ? product.description : product.description.substring(0, 100)}...</p>
         <p className="black-10">${product.price}</p>
         <p className="black-9">
           Category: {product.category && product.category.name}
