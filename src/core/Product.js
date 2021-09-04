@@ -37,7 +37,7 @@ const Product = (props) => {
       cartQuantity={cartQuantity}
     >
       <div className="row">
-        <div className="col-xl-8 mt-5">
+        <div style={{ height: "fit-content" }} className="col-xl-8 mt-5">
           {product && product.category && (
             <Card
               props={props}

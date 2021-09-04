@@ -80,9 +80,6 @@ const UpdateProduct = (props) => {
   };
 
   const redirectToProductPage = () => {
-    /* if(sendToProductPage){
-      return <Redirect to={`/product/${productId}`} /> 
-    } */
     props.history.push(`/product/${productId}`);
   };
 
@@ -109,7 +106,6 @@ const UpdateProduct = (props) => {
         console.log("ERROR AddProduct.js clickSubmit", data.error);
         setValues((vals) => ({ ...vals, error: data.error, loading: false }));
       } else {
-        //setSendToProductPage(true)
         redirectToProductPage();
       }
     });
@@ -169,6 +165,7 @@ const UpdateProduct = (props) => {
           onChange={handleChange("price")}
           type="number"
           value={price}
+          min={1}
           className="form-control"
         />
       </div>
@@ -202,6 +199,7 @@ const UpdateProduct = (props) => {
           onChange={handleChange("quantity")}
           type="number"
           value={quantity}
+          min={0}
           className="form-control"
         />
       </div>

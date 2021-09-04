@@ -1,11 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link, useParams, useLocation } from "react-router-dom";
-import AdminControls from "../admin/DeleteUpdateBtns";
-import Image from "./ShowImage";
-import moment from "moment";
 import { addItem, removeItem, updateItem } from "../actions/cartActions";
 import { isAuthenticated } from "../auth";
+import moment from "moment";
+import AdminControls from "../admin/DeleteUpdateBtns";
+import Image from "./ShowImage";
+
 const Card = ({
   product,
   cart,
@@ -20,8 +21,8 @@ const Card = ({
 }) => {
   const itemInCart = cart.find((item) => item._id === product._id);
   const params = useParams();
-  const location = useLocation()
-  console.log({ params, location });
+  const location = useLocation();
+
   const addToCart = () => {
     addItem(product);
   };
@@ -36,13 +37,11 @@ const Card = ({
   /* 1. BUTTON - VIEW PRODUCT */
   const viewProductButton = (showButton) => {
     const path = isAuthenticated() ? `/product/${product._id}` : "/signin";
-    const leftMargin = itemInCart || !showAddToCartButton ? "" : "ml-2";
+
     return (
       showButton && (
         <Link to={path}>
-          <button
-            className={`btn btn-outline-primary mt-2 mb-2 mr-2`}
-          >
+          <button className={`btn btn-outline-primary mt-2 mb-2 mr-2`}>
             View Product
           </button>
         </Link>
@@ -68,7 +67,13 @@ const Card = ({
   const removeProductButton = (showButton) =>
     showButton && (
       <button
-        style={{ width: `${params.productId || location.pathname === "/shop" ? "fit-content" : "100%"}` }}
+        style={{
+          width: `${
+            params.productId || location.pathname === "/shop"
+              ? "fit-content"
+              : "100%"
+          }`,
+        }}
         onClick={() => {
           removeItem(product._id);
         }}
@@ -102,7 +107,7 @@ const Card = ({
     return quantity > 0 ? (
       <span className="badge badge-primary badge-pill">{`${quantity} In Stock`}</span>
     ) : (
-      <span className="badge badge-primary badge-pill">Out of Stock</span>
+      <span className="badge badge-danger badge-pill">Out of Stock</span>
     );
   };
 
@@ -135,26 +140,40 @@ const Card = ({
     );
   };
 
-  const card_header_style = itemInCart ? "in_cart_item" : "name";
+  const card_header_style = itemInCart ? "in-cart-item" : "name";
 
   return (
-    <div className="card" style={{ minHeight: "600px" }}>
+    <div
+      className="card"
+      style={{
+        minHeight: "600px",
+        height: "100%",
+      }}
+    >
       <div className={`card-header ${card_header_style}`}>
         {product.name} {itemInCart ? <i className="fas fa-check"></i> : ""}
       </div>
-      <div className="card-body">
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+        className="card-body"
+      >
         <Image item={product} url="product" />
-        <p className="lead mt-2">
-          {params.productId
-            ? product.description
-            : product.description.substring(0, 100)}
-          ...
-        </p>
-        <p className="black-10">${product.price}</p>
-        <p className="black-9">
-          Category: {product.category && product.category.name}
-        </p>
-        <p className="black-8">Added {moment(product.createdAt).fromNow()}</p>
+        <div className="stripes">
+          <p className="lead mt-2">
+            {params.productId
+              ? product.description
+              : `${product.description.substring(0, 50)}...`}
+          </p>
+          <p className="black-10">${product.price}</p>
+          <p className="black-9">
+            Category: {product.category && product.category.name}
+          </p>
+          <p className="black-8">Added {moment(product.createdAt).fromNow()}</p>
+        </div>
         {actionButtons()}
       </div>
     </div>
