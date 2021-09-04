@@ -19,8 +19,8 @@ const Card = ({
   showAdminControls = false,
 }) => {
   const itemInCart = cart.find((item) => item._id === product._id);
-  const params = useParams()
-  console.log({params})
+  const params = useParams();
+  console.log({ params });
   const addToCart = () => {
     addItem(product);
   };
@@ -40,7 +40,8 @@ const Card = ({
       showButton && (
         <Link to={path}>
           <button
-            className={`btn btn-outline-primary mt-2 mb-2 mr-2 ${leftMargin}`}
+            style={{ width: `${params.productId ? "fit-content" : "100%"}` }}
+            className={`btn btn-outline-primary mt-2 mb-2 mr-2`}
           >
             View Product
           </button>
@@ -50,7 +51,6 @@ const Card = ({
   };
   /* 2. BUTTON - ADD TO CART  */
   const addToCartButton = (showButton) => {
-    //console.log('show button? ', showButton, 'quantity: ', product.quantity)
     return (
       showButton &&
       product.quantity > 0 && (
@@ -68,10 +68,11 @@ const Card = ({
   const removeProductButton = (showButton) =>
     showButton && (
       <button
+        style={{ width: `${params.productId ? "fit-content" : "100%"}` }}
         onClick={() => {
           removeItem(product._id);
         }}
-        className="btn btn-outline-danger mt-2 mb-2"
+        className="btn btn-outline-danger mt-2 mb-2 mr-2"
       >
         Remove Item
       </button>
@@ -117,9 +118,17 @@ const Card = ({
             <i style={{ color: "#00DD55" }} className="fas fa-check"></i>
           </h4>
         )}
-        {!itemInCart && addToCartButton(showAddToCartButton)}
-        {viewProductButton(showViewProductButton)}
-        {itemInCart && removeProductButton(showRemoveProductButton)}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            flexDirection: `${itemInCart ? "column" : "row"}`,
+          }}
+        >
+          {!itemInCart && addToCartButton(showAddToCartButton)}
+          {viewProductButton(showViewProductButton)}
+          {itemInCart && removeProductButton(showRemoveProductButton)}
+        </div>
         {itemInCart && changeQuantityButtons(showChangeQuantityButtons)}
         {showAdminControls && <AdminControls product={product} />}
       </div>
@@ -135,7 +144,12 @@ const Card = ({
       </div>
       <div className="card-body">
         <Image item={product} url="product" />
-        <p className="lead mt-2">{params.productId ? product.description : product.description.substring(0, 100)}...</p>
+        <p className="lead mt-2">
+          {params.productId
+            ? product.description
+            : product.description.substring(0, 100)}
+          ...
+        </p>
         <p className="black-10">${product.price}</p>
         <p className="black-9">
           Category: {product.category && product.category.name}
