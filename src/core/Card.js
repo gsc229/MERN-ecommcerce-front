@@ -7,7 +7,6 @@ import moment from "moment";
 import { addItem, removeItem, updateItem } from "../actions/cartActions";
 import { isAuthenticated } from "../auth";
 const Card = ({
-  props,
   product,
   cart,
   addItem,
@@ -49,7 +48,6 @@ const Card = ({
     );
   };
   /* 2. BUTTON - ADD TO CART  */
-
   const addToCartButton = (showButton) => {
     //console.log('show button? ', showButton, 'quantity: ', product.quantity)
     return (

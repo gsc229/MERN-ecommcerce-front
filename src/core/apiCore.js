@@ -82,6 +82,7 @@ export const getCategory = (categoryId) => {
 };
 
 export const read = (productId) => {
+  console.log("read:", productId)
   return axiosWIthAuth()
     .get(`/product/${productId}`)
     .then((response) => {
@@ -98,12 +99,13 @@ export const read = (productId) => {
         });
     })
     .catch((error) => {
-      console.log("apiCore read error.response.data: ", error.response);
+      console.log("apiCore read error.response.data: ", error);
       return error.response;
     });
 };
 
 export const listRelated = (productId) => {
+  console.log("listRelated:", { productId })
   return axiosWIthAuth()
     .get(`/products/related/${productId}`)
     .then((response) => {
