@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import AdminControls from "../admin/DeleteUpdateBtns";
 import Image from "./ShowImage";
 import moment from "moment";
@@ -20,7 +20,8 @@ const Card = ({
 }) => {
   const itemInCart = cart.find((item) => item._id === product._id);
   const params = useParams();
-  console.log({ params });
+  const location = useLocation()
+  console.log({ params, location });
   const addToCart = () => {
     addItem(product);
   };
@@ -40,7 +41,6 @@ const Card = ({
       showButton && (
         <Link to={path}>
           <button
-            style={{ width: `${params.productId ? "fit-content" : "100%"}` }}
             className={`btn btn-outline-primary mt-2 mb-2 mr-2`}
           >
             View Product
@@ -68,11 +68,11 @@ const Card = ({
   const removeProductButton = (showButton) =>
     showButton && (
       <button
-        style={{ width: `${params.productId ? "fit-content" : "100%"}` }}
+        style={{ width: `${params.productId || location.pathname === "/shop" ? "fit-content" : "100%"}` }}
         onClick={() => {
           removeItem(product._id);
         }}
-        className="btn btn-outline-danger mt-2 mb-2 mr-2"
+        className="btn btn-danger mt-2 mb-2 mr-2"
       >
         Remove Item
       </button>
@@ -122,14 +122,14 @@ const Card = ({
           style={{
             display: "flex",
             justifyContent: "space-between",
-            flexDirection: `${itemInCart ? "column" : "row"}`,
+            // flexDirection: `${itemInCart ? "column" : "row"}`,
           }}
         >
           {!itemInCart && addToCartButton(showAddToCartButton)}
           {viewProductButton(showViewProductButton)}
-          {itemInCart && removeProductButton(showRemoveProductButton)}
         </div>
         {itemInCart && changeQuantityButtons(showChangeQuantityButtons)}
+        {itemInCart && removeProductButton(showRemoveProductButton)}
         {showAdminControls && <AdminControls product={product} />}
       </div>
     );
